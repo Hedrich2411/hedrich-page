@@ -14,7 +14,10 @@
   "dependencies": {
     "astro": "^7.2.9"
   },
-  "allowScripts": {
-    "esbuild": true
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   }
 }
