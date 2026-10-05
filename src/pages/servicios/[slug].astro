@@ -1,0 +1,43 @@
+---
+import Faq from "../../components/services/Faq.astro";
+import Includes from "../../components/services/Includes.astro";
+import Process from "../../components/services/Process.astro";
+import ServiceTabs from "../../components/services/ServiceTabs.astro";
+import CallToAction from "../../components/shared/CallToAction.astro";
+import Layout from "../../layouts/Layout.astro";
+import { services, slugOf } from "../../lib/services";
+import { TECHNOLOGIES } from "../../lib/technologies";
+
+export function getStaticPaths() {
+	return services.map((service) => ({ params: { slug: slugOf(service) }, props: { service } }));
+}
+
+const { service } = Astro.props;
+---
+
+<Layout title={service.name} description={service.summary}>
+	<main class="mx-auto max-w-5xl px-6 pb-32 pt-12">
+		<ServiceTabs current={slugOf(service)} />
+
+		<h1 data-reveal class="mt-10 text-4xl font-extrabold tracking-tight sm:text-5xl">{service.name}</h1>
+		<p data-reveal class="mt-4 max-w-prose text-lg text-base-content/60">{service.summary}</p>
+
+		<ul data-reveal class="mt-6 flex flex-wrap items-center gap-3 text-base-content/40">
+			{service.stack.map((slug) => (
+				<li title={TECHNOLOGIES[slug].name}>
+					<svg class="size-5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d={TECHNOLOGIES[slug].path} /></svg>
+					<span class="sr-only">{TECHNOLOGIES[slug].name}</span>
+				</li>
+			))}
+		</ul>
+
+		<Includes items={service.includes} />
+		<Process />
+		<Faq />
+
+		<CallToAction
+			title={`¿Necesitás ${service.name.toLowerCase()}?`}
+			label="Contame qué necesitás y te digo en la primera conversación si puedo ayudarte, cuánto tardaría y cuánto costaría."
+		/>
+	</main>
+</Layout>

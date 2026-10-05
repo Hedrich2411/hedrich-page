@@ -1,0 +1,74 @@
+---
+import { faq } from "../../lib/services";
+---
+
+<section class="mt-24">
+	<h2 data-reveal class="text-2xl font-extrabold tracking-tight">Preguntas frecuentes</h2>
+
+	<!-- <details> nativo: teclado, Ctrl+F encuentra las respuestas cerradas, y sin JS abre igual -->
+	<ul class="mt-8 border-b border-base-300">
+		{faq.map((p) => (
+			<li data-reveal class="border-t border-base-300">
+				<details class="group">
+					<summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-medium transition-colors hover:text-primary">
+						{p.q}
+						<svg class="size-5 shrink-0 text-base-content/40 transition-transform duration-300 group-open:rotate-45" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M12 5v14M5 12h14" /></svg>
+					</summary>
+					<div data-answer class="overflow-hidden">
+						<p class="max-w-prose pb-6 text-base-content/70">{p.a}</p>
+					</div>
+				</details>
+			</li>
+		))}
+	</ul>
+</section>
+
+<script>
+	import gsap from "gsap";
+
+	// Astro hoists this script once even if the component repeats
+	const init = () => {
+		const faq = document.querySelectorAll<HTMLDetailsElement>("details:has([data-answer])");
+
+		faq.forEach((det) => {
+			const summary = det.querySelector("summary");
+			const answer = det.querySelector<HTMLElement>("[data-answer]");
+			if (!summary || !answer) return;
+
+			summary.addEventListener("click", (e) => {
+				e.preventDefault();
+				if (gsap.isTweening(answer)) return;
+
+				if (det.open) {
+					gsap.to(answer, {
+						height: 0,
+						opacity: 0,
+						duration: 0.3,
+						ease: "power2.inOut",
+						onComplete: () => {
+							det.open = false;
+							gsap.set(answer, { clearProps: "all" });
+						},
+					});
+					return;
+				}
+
+				// open before measuring: a closed <details> has no height
+				det.open = true;
+				gsap.fromTo(
+					answer,
+					{ height: 0, opacity: 0 },
+					{
+						height: "auto",
+						opacity: 1,
+						duration: 0.4,
+						ease: "power2.out",
+						onComplete: () => gsap.set(answer, { clearProps: "height" }),
+					},
+				);
+			});
+		});
+	};
+
+	document.addEventListener("astro:page-load", init);
+</script>

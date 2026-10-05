@@ -1,0 +1,41 @@
+---
+import site from "../../data/site.json";
+import { links } from "../../lib/navigation";
+import Column, { type Item } from "./footer/Column.astro";
+import Status from "./footer/Status.astro";
+import Brand from "./footer/Brand.astro";
+
+const { contact } = site;
+const navigation: Item[] = links.map((l) => ({ label: l.label, href: l.href }));
+const contacts: Item[] = [
+	{ label: contact.email, href: `mailto:${contact.email}`, highlight: true, external: true },
+	{ label: contact.phone, href: `tel:${contact.phone.replace(/\s/g, "")}` },
+	{ label: contact.linkedin.replace(/^https?:\/\//, ""), href: contact.linkedin, external: true },
+	{ label: contact.github.replace(/^https?:\/\//, ""), href: contact.github, external: true },
+];
+---
+
+<footer class="border-t border-base-300">
+	<div class="mx-auto max-w-6xl px-6 py-14 sm:py-16">
+		<div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1.2fr_1fr]">
+			<div data-reveal><Brand /></div>
+			<div data-reveal><Column title="Navegación" items={navigation} /></div>
+			<div data-reveal><Column title="Contacto" items={contacts} /></div>
+			<div data-reveal><Status /></div>
+		</div>
+
+		<!-- the design closes with the divider; below it, only the fine print -->
+		<div data-reveal class="mt-12 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-base-300 pt-6 text-xs text-base-content/50">
+			<!-- the build is static: without the script the year freezes on 1 January -->
+				<p>© <span data-year>{new Date().getFullYear()}</span> {site.name}</p>
+			<nav class="flex gap-5">
+				<a class="link link-hover" href="/privacidad">Privacidad</a>
+				<a class="link link-hover" href="/terminos">Términos</a>
+			</nav>
+		</div>
+	</div>
+</footer>
+
+<script is:inline>
+	document.querySelector("[data-year]").textContent = new Date().getFullYear();
+</script>

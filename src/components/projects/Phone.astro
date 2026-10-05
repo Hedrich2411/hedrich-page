@@ -1,0 +1,84 @@
+---
+interface Props {
+	screens: string[];
+	name: string;
+	/** En la tarjeta auto se muestra la primera pantalla, sin gesto ni dots. */
+	isStatic?: boolean;
+	transitionName?: string;
+	class?: string;
+}
+const { screens, name, isStatic = false, transitionName, class: cls = "w-full max-w-[17rem]" } = Astro.props;
+const visible = isStatic ? screens.slice(0, 1) : screens;
+---
+
+<div data-phone={isStatic ? null : ""} class:list={["mx-auto", cls]}>
+	<!-- The frame is CSS, not an image: it follows the theme and scales without pixelating -->
+	<div
+		style={transitionName ? `view-transition-name: ${transitionName}` : undefined}
+		class="relative aspect-[9/19.5] rounded-[2.2rem] border-[9px] border-base-content/85 bg-base-content/85 shadow-2xl"
+	>
+		<span class="absolute left-1/2 top-2.5 z-10 h-5 w-[5.5rem] -translate-x-1/2 rounded-full bg-base-content/85"></span>
+
+		<div
+			data-track
+			class:list={[
+				"flex size-full overflow-hidden rounded-[1.5rem]",
+				!isStatic && "snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+			]}
+		>
+			{visible.map((src, i) => (
+				<img
+					src={src}
+					alt={`${name}, pantalla ${i + 1}`}
+					width="540"
+					height="1170"
+					loading="lazy"
+					draggable="false"
+					class="size-full shrink-0 snap-center object-cover"
+				/>
+			))}
+		</div>
+	</div>
+
+	{!isStatic && screens.length > 1 && (
+		<div data-dots class="mt-6 flex justify-center gap-2">
+			{screens.map((_, i) => (
+				<button
+					type="button"
+					data-dot={i}
+					aria-label={`Ir a la pantalla ${i + 1}`}
+					class="size-2 rounded-full bg-base-content/20 transition-all aria-[current=true]:w-5 aria-[current=true]:bg-primary"
+				/>
+			))}
+		</div>
+	)}
+</div>
+
+<script>
+	const init = () => {
+		const root = document.querySelector<HTMLElement>("[data-phone]");
+		const track = root?.querySelector<HTMLElement>("[data-track]");
+		if (!root || !track) return;
+
+		const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-dot]")];
+		if (!dots.length) return;
+
+		const mark = (i: number) => dots.forEach((p, j) => p.setAttribute("aria-current", String(j === i)));
+
+		// snap scrolling already gives the touch gesture; the dots just reflect it
+		track.addEventListener("scroll", () => mark(Math.round(track.scrollLeft / track.clientWidth)), { passive: true });
+
+		dots.forEach((p, i) =>
+			p.addEventListener("click", () =>
+				track.scrollTo({
+					left: i * track.clientWidth,
+					behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+				}),
+			),
+		);
+
+		mark(0);
+	};
+
+	document.addEventListener("astro:page-load", init);
+</script>

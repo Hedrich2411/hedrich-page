@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+<rect width="1200" height="750" fill="#FFFFFF"/>
+<rect x="0" y="0" width="1200" height="44" rx="0" fill="#F8FAFC"/>
+<circle cx="24" cy="22" r="5" fill="#F87171"/><circle cx="42" cy="22" r="5" fill="#FBBF24"/><circle cx="60" cy="22" r="5" fill="#34D399"/>
+<rect x="450" y="13" width="300" height="18" rx="9" fill="#F1F5F9"/>
+<text x="462" y="26" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="400" fill="#94A3B8">erp.interno / cierre de mes</text>
+<line x1="0" y1="44" x2="1200" y2="44" stroke="#E5E7EB"/>
+<rect x="0" y="44" width="210" height="706" rx="0" fill="#F8FAFC"/><line x1="210" y1="44" x2="210" y2="750" stroke="#E5E7EB"/>
+<rect x="12" y="66" width="186" height="30" rx="6" fill="#E0E7FF"/><text x="26" y="86" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="600" fill="#4F46E5">Cierre</text><text x="26" y="124" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="400" fill="#94A3B8">Asientos</text><text x="26" y="162" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="400" fill="#94A3B8">Boletas</text><text x="26" y="200" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="400" fill="#94A3B8">Tardanzas</text><text x="26" y="238" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="400" fill="#94A3B8">Rotación</text>
+<text x="242" y="84" font-family="Inter,system-ui,sans-serif" font-size="20" font-weight="700" fill="#0F172A">Cierre de mes</text><text x="242" y="108" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="400" fill="#94A3B8">Del marcador de tarjetas al archivo que se declara</text>
+<defs><marker id="f" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 9 4.5 0 9z" fill="#94A3B8"/></marker></defs>
+<rect x="242" y="274" width="210" height="84" rx="10" fill="#F8FAFC"/>
+<rect x="242" y="274" width="210" height="84" rx="10" fill="none" stroke="#E5E7EB"/>
+<text x="258" y="308" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="700" fill="#0F172A">Marcadores</text><text x="258" y="332" font-family="Inter,system-ui,sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8">Entradas y salidas</text><line x1="462" y1="316" x2="468.6666666666667" y2="316" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#f)"/><rect x="480.66666666666663" y="274" width="210" height="84" rx="10" fill="#F8FAFC"/>
+<rect x="480.66666666666663" y="274" width="210" height="84" rx="10" fill="none" stroke="#E5E7EB"/>
+<text x="496.66666666666663" y="308" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="700" fill="#0F172A">Modelo</text><text x="496.66666666666663" y="332" font-family="Inter,system-ui,sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8">Horarios y ausencias</text><line x1="700.6666666666666" y1="316" x2="707.3333333333333" y2="316" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#f)"/><rect x="719.3333333333333" y="274" width="210" height="84" rx="10" fill="#F8FAFC"/>
+<rect x="719.3333333333333" y="274" width="210" height="84" rx="10" fill="none" stroke="#E5E7EB"/>
+<text x="735.3333333333333" y="308" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="700" fill="#0F172A">Cálculo</text><text x="735.3333333333333" y="332" font-family="Inter,system-ui,sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8">Extras, AFP, CTS</text><line x1="939.3333333333333" y1="316" x2="945.9999999999999" y2="316" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#f)"/><rect x="958" y="274" width="210" height="84" rx="10" fill="#E0E7FF"/>
+<rect x="958" y="274" width="210" height="84" rx="10" fill="none" stroke="#4F46E5"/>
+<text x="974" y="308" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="700" fill="#4F46E5">Salida</text><text x="974" y="332" font-family="Inter,system-ui,sans-serif" font-size="11.5" font-weight="400" fill="#94A3B8">Asientos y PDT Plame</text>
+</svg>

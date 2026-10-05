@@ -1,0 +1,18 @@
+---
+import { ICONS, type IconName } from "../../lib/icons";
+
+interface Props { name: IconName; class?: string; ring?: boolean }
+const { name, class: cls = "size-4", ring = false } = Astro.props;
+---
+
+<svg class={cls} fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+	{ring && <circle cx="12" cy="12" r="9" />}
+	{name === "pin" && <circle cx="12" cy="10" r="2.5" />}
+	{name === "linkedin" && (
+		<>
+			<rect x="2" y="9" width="4" height="12" rx="1" />
+			<circle cx="4" cy="4" r="2" />
+		</>
+	)}
+	<path stroke-linecap="round" stroke-linejoin="round" d={ICONS[name]} />
+</svg>

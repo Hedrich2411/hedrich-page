@@ -1,0 +1,59 @@
+---
+import type { Project } from "../../lib/projects";
+import { TECHNOLOGIES } from "../../lib/technologies";
+import Phone from "./Phone.astro";
+
+interface Props { project: Project }
+const { project } = Astro.props;
+const cover = project.shots[0];
+const isMobile = project.screens.length > 0;
+---
+
+<li data-card data-stack={project.stack.join(",")} data-reveal>
+	<a
+		href={`/proyectos/${project.slug}`}
+		class="group flex h-full flex-col overflow-hidden rounded-xl border border-base-300 transition-colors hover:border-primary/50"
+	>
+		{/* el teléfono asoma desde abajo: se recorta contra el 16/10 de la tarjeta */}
+		{isMobile ? (
+			<div class="flex aspect-[16/10] items-end justify-center overflow-hidden border-b border-base-300 bg-base-200 px-6 pt-8">
+				<Phone
+					isStatic
+					screens={project.screens}
+					name={project.name}
+					transitionName={`portada-${project.slug}`}
+					class="w-[7.5rem]"
+				/>
+			</div>
+		) : cover ? (
+			<div class="aspect-[16/10] overflow-hidden border-b border-base-300 bg-base-200">
+				<img
+					transition:name={`portada-${project.slug}`}
+					src={cover}
+					alt=""
+					width="1200"
+					height="750"
+					loading="lazy"
+					class="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+				/>
+			</div>
+		) : null}
+
+		<div class="flex flex-1 flex-col p-5">
+			<p class="text-xs text-base-content/50">{project.kind} · {project.year}</p>
+			<h3 transition:name={`titulo-${project.slug}`} class="mt-1 text-lg font-extrabold tracking-tight transition-colors group-hover:text-primary">
+				{project.name}
+			</h3>
+			<p class="mt-2 flex-1 text-sm text-base-content/70">{project.summary}</p>
+
+			<ul class="mt-4 flex flex-wrap items-center gap-3 text-base-content/40">
+				{project.stack.map((slug) => (
+					<li title={TECHNOLOGIES[slug].name}>
+						<svg class="size-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d={TECHNOLOGIES[slug].path} /></svg>
+						<span class="sr-only">{TECHNOLOGIES[slug].name}</span>
+					</li>
+				))}
+			</ul>
+		</div>
+	</a>
+</li>

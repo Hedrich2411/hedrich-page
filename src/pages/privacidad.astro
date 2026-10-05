@@ -1,98 +1,25 @@
 ---
-import Layout from "../layouts/Layout.astro";
-// ponytail: texto placeholder, ajustar según los datos que realmente recopile la app
+import Legal from "../layouts/Legal.astro";
+import site from "../data/site.json";
+// ponytail: placeholder copy, adjust to the data the published apps really collect
+const email = site.contact.email;
+const sections: [string, string][] = [
+	["1. Responsable", "hedrich.dev es responsable del tratamiento de los datos personales recopilados a través de sus aplicaciones publicadas en Google Play."],
+	["2. Datos que recopilamos", "Podemos recopilar información que usted nos proporciona directamente (como su nombre o correo electrónico) e información técnica generada por el uso de la aplicación (identificadores del dispositivo, registros de errores y datos de uso anónimos)."],
+	["3. Uso de la información", "Utilizamos los datos para prestar y mejorar el servicio, corregir errores, brindar soporte y cumplir obligaciones legales. No vendemos sus datos personales a terceros."],
+	["4. Servicios de terceros", "La aplicación puede utilizar servicios de terceros (como Google Play Services o herramientas de analítica) que recopilan información conforme a sus propias políticas de privacidad."],
+	["5. Conservación y seguridad", "Conservamos los datos solo durante el tiempo necesario para los fines descritos y aplicamos medidas técnicas razonables para protegerlos contra accesos no autorizados."],
+	["6. Sus derechos", "Usted puede solicitar el acceso, rectificación o eliminación de sus datos personales en cualquier momento escribiéndonos al correo de contacto indicado abajo."],
+	["7. Menores", "La aplicación no está dirigida a menores de 13 años y no recopilamos intencionalmente información de ellos."],
+	["8. Cambios en esta política", "Podemos actualizar esta política ocasionalmente. Los cambios serán publicados en esta página con la fecha de actualización."],
+	["9. Contacto", `Para consultas sobre privacidad, escríbanos a <a class="link" href="mailto:${email}">${email}</a>.`],
+];
 ---
 
-<Layout title="Política de Privacidad">
-	<main>
-		<header>
-			<h1>Política de Privacidad</h1>
-			<p class="meta">Última actualización: 28 de agosto de 2026</p>
-		</header>
-
-		<section>
-			<h2>1. Responsable</h2>
-			<p>hedrich.dev es responsable del tratamiento de los datos personales recopilados a través de sus aplicaciones publicadas en Google Play.</p>
-		</section>
-
-		<section>
-			<h2>2. Datos que recopilamos</h2>
-			<p>Podemos recopilar información que usted nos proporciona directamente (como nombre o correo electrónico) e información técnica generada por el uso de la aplicación (identificadores del dispositivo, registros de errores y datos de uso anónimos).</p>
-		</section>
-
-		<section>
-			<h2>3. Uso de la información</h2>
-			<p>Utilizamos los datos para prestar y mejorar el servicio, corregir errores, brindar soporte y cumplir obligaciones legales. No vendemos sus datos personales a terceros.</p>
-		</section>
-
-		<section>
-			<h2>4. Servicios de terceros</h2>
-			<p>La aplicación puede utilizar servicios de terceros (como Google Play Services o herramientas de analítica) que recopilan información conforme a sus propias políticas de privacidad.</p>
-		</section>
-
-		<section>
-			<h2>5. Conservación y seguridad</h2>
-			<p>Conservamos los datos solo durante el tiempo necesario para los fines descritos y aplicamos medidas técnicas razonables para protegerlos contra accesos no autorizados.</p>
-		</section>
-
-		<section>
-			<h2>6. Sus derechos</h2>
-			<p>Usted puede solicitar el acceso, rectificación o eliminación de sus datos personales en cualquier momento escribiéndonos al correo de contacto indicado abajo.</p>
-		</section>
-
-		<section>
-			<h2>7. Menores</h2>
-			<p>La aplicación no está dirigida a menores de 13 años y no recopilamos intencionalmente información de ellos.</p>
-		</section>
-
-		<section>
-			<h2>8. Cambios en esta política</h2>
-			<p>Podemos actualizar esta política ocasionalmente. Los cambios serán publicados en esta página con la fecha de actualización.</p>
-		</section>
-
-		<section>
-			<h2>9. Contacto</h2>
-			<p>Para consultas sobre privacidad, escríbanos a <a href="mailto:hedrich2411@gmail.com">hedrich2411@gmail.com</a>.</p>
-		</section>
-
-		<footer><a href="/terminos">Términos y Condiciones</a></footer>
-	</main>
-</Layout>
-
-<style>
-	main {
-		max-width: 42rem;
-		margin: 0 auto;
-		padding: 5rem 1.5rem 6rem;
-	}
-	header {
-		margin-bottom: 3.5rem;
-		padding-bottom: 2rem;
-		border-bottom: 1px solid var(--line);
-	}
-	h1 {
-		margin: 0 0 0.5rem;
-		font-size: clamp(1.75rem, 4vw, 2.5rem);
-		font-weight: 500;
-		letter-spacing: -0.02em;
-	}
-	.meta {
-		margin: 0;
-		font-size: 0.85rem;
-		color: var(--muted);
-	}
-	section { margin-bottom: 2.5rem; }
-	h2 {
-		margin: 0 0 0.5rem;
-		font-size: 1rem;
-		font-weight: 600;
-	}
-	p { margin: 0; color: #3a3a3a; }
-	a { color: var(--fg); }
-	footer {
-		margin-top: 4rem;
-		padding-top: 2rem;
-		border-top: 1px solid var(--line);
-		font-size: 0.85rem;
-	}
-</style>
+<Legal
+	title="Política de Privacidad"
+	description="Cómo se tratan los datos personales en las aplicaciones publicadas por hedrich.dev."
+	actualizado="28 de agosto de 2026"
+	sections={sections}
+	footer={{ href: "/terminos", label: "Términos y Condiciones" }}
+/>

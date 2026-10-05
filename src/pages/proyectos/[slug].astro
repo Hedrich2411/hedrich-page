@@ -1,0 +1,90 @@
+---
+import Meta from "../../components/projects/Meta.astro";
+import Gallery from "../../components/projects/Gallery.astro";
+import Phone from "../../components/projects/Phone.astro";
+import Icon from "../../components/shared/Icon.astro";
+import Layout from "../../layouts/Layout.astro";
+import { projects } from "../../lib/projects";
+
+export function getStaticPaths() {
+	return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const index = projects.findIndex((p) => p.slug === project.slug);
+const next = projects[(index + 1) % projects.length];
+const isMobile = project.screens.length > 0;
+// on mobile the phone is the hero, so every shot goes to the gallery
+const cover = isMobile ? "" : project.shots[0];
+const rest = isMobile ? project.shots : project.shots.slice(1);
+---
+
+<Layout title={project.name} description={project.summary}>
+	<main class="mx-auto max-w-5xl px-6 pb-32 pt-12">
+		<a href="/proyectos" class="group inline-flex items-center gap-2 text-sm text-base-content/60 transition-colors hover:text-primary">
+			<Icon name="arrow" class="size-4 rotate-180 transition-transform duration-300 group-hover:-translate-x-0.5" />
+			Proyectos
+		</a>
+
+		<p data-reveal class="mt-8 text-sm text-base-content/50">{project.kind} · {project.year}</p>
+		<h1 transition:name={`titulo-${project.slug}`} class="mt-1 text-4xl font-extrabold tracking-tight sm:text-5xl">{project.name}</h1>
+		<p data-reveal class="mt-4 max-w-prose text-lg text-base-content/70">{project.summary}</p>
+
+		<Meta stack={project.stack} url={project.url} />
+
+		{cover && (
+			<img
+				transition:name={`portada-${project.slug}`}
+				src={cover}
+				alt={`${project.name}, captura principal`}
+				width="1200"
+				height="750"
+				class="mt-10 block w-full rounded-xl border border-base-300 bg-base-200"
+			/>
+		)}
+
+		<div class:list={["mt-12 grid gap-10", isMobile && "lg:grid-cols-[1fr_15rem] lg:items-center"]}>
+			<div class="min-w-0 max-w-prose space-y-8">
+				<section data-reveal>
+					<h2 class="font-extrabold">El problema</h2>
+					<p class="mt-2 text-base-content/70">{project.problem}</p>
+				</section>
+
+				<section data-reveal>
+					<h2 class="font-extrabold">Lo que hice</h2>
+					<p class="mt-2 text-base-content/70">{project.solution}</p>
+				</section>
+
+				<!-- the rule marks this as the outcome, not more description -->
+				<p data-reveal class="border-l-2 border-primary pl-4 text-lg font-medium">{project.impact}</p>
+			</div>
+
+			{isMobile && (
+				<Phone
+					screens={project.screens}
+					name={project.name}
+					transitionName={`portada-${project.slug}`}
+					class="w-full max-w-[15rem]"
+				/>
+			)}
+		</div>
+
+		<Gallery shots={rest} name={project.name} />
+
+		<a
+			data-reveal
+			href={`/proyectos/${next.slug}`}
+			class="group mt-20 flex items-center justify-between gap-6 border-t border-base-300 pt-8"
+		>
+			<span>
+				<span class="block text-sm text-base-content/50">Siguiente proyecto</span>
+				<span class="mt-1 block text-xl font-extrabold tracking-tight transition-colors group-hover:text-primary sm:text-2xl">
+					{next.name}
+				</span>
+			</span>
+			<span class="flex size-10 shrink-0 items-center justify-center rounded-full border border-base-300 transition-colors group-hover:border-primary group-hover:bg-primary group-hover:text-primary-content">
+				<Icon name="arrow" class="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+			</span>
+		</a>
+	</main>
+</Layout>

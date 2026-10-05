@@ -1,0 +1,16 @@
+---
+interface Props { items: string[] }
+const { items } = Astro.props;
+---
+
+<section class="mt-14">
+	<h2 data-reveal class="text-2xl font-extrabold tracking-tight">Qué incluye</h2>
+	<ul class="mt-6 grid gap-3 sm:grid-cols-2">
+		{items.map((item) => (
+			<li data-reveal class="flex gap-2.5 rounded-xl border border-base-300 p-4 text-sm text-base-content/80">
+				<svg class="mt-0.5 size-4 shrink-0 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m5 13 4 4L19 7" /></svg>
+				{item}
+			</li>
+		))}
+	</ul>
+</section>

@@ -1,0 +1,99 @@
+---
+import { navLinkClass, type NavLink } from "../../lib/navigation";
+
+interface Props { link: NavLink; active: boolean }
+const { link, active } = Astro.props;
+const panelId = `menu-${link.href.replace(/\W/g, "") || "inicio"}`;
+---
+
+<li class="relative" data-dropdown>
+	{/* a button, not a link: there is no index page behind it, only the menu */}
+	<button
+		type="button"
+		aria-haspopup="true"
+		aria-expanded="false"
+		aria-controls={panelId}
+		class:list={[...navLinkClass(active), "inline-flex cursor-pointer items-center gap-1"]}
+	>
+		{link.label}
+		<svg data-chevron class="size-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+			<path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+		</svg>
+	</button>
+
+	{/* pt-3 bridges the gap under the trigger: the pointer can cross without closing */}
+	<div id={panelId} data-panel class="invisible absolute left-1/2 top-full z-50 w-[30rem] -translate-x-1/2 pt-3 opacity-0">
+		<ul class="grid grid-cols-2 gap-x-2 rounded-xl border border-base-300 bg-base-100 p-3 shadow-xl">
+			{link.menu?.map((item) => (
+				<li>
+					<a data-item href={item.href} class="block rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-base-200 hover:text-primary">
+						{item.label}
+					</a>
+				</li>
+			))}
+		</ul>
+	</div>
+</li>
+
+<script>
+	import gsap from "gsap";
+
+	// one closer per dropdown on screen; init() refills it on each navigation
+	const closers = new Set<() => void>();
+
+	const init = () => {
+		closers.clear();
+		const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+		for (const root of document.querySelectorAll<HTMLElement>("[data-dropdown]")) {
+			const trigger = root.querySelector<HTMLButtonElement>("[aria-haspopup]");
+			const panel = root.querySelector<HTMLElement>("[data-panel]");
+			const chevron = root.querySelector<SVGElement>("[data-chevron]");
+			if (!trigger || !panel || !chevron) continue;
+
+			const items = panel.querySelectorAll<HTMLElement>("[data-item]");
+			let open = false;
+			let timeline: gsap.core.Timeline | null = null;
+
+			const toggle = (next: boolean) => {
+				if (next === open) return;
+				open = next;
+				trigger.setAttribute("aria-expanded", String(next));
+				timeline?.kill();
+
+				if (reduce) {
+					gsap.set(panel, { autoAlpha: next ? 1 : 0 });
+					return;
+				}
+
+				timeline = gsap
+					.timeline()
+					.to(chevron, { rotate: next ? 180 : 0, duration: 0.2, ease: "power2.out" }, 0)
+					.fromTo(
+						panel,
+						{ autoAlpha: next ? 0 : 1, y: next ? -8 : 0 },
+						{ autoAlpha: next ? 1 : 0, y: next ? 0 : -8, duration: next ? 0.24 : 0.16, ease: "power2.out" },
+						0,
+					);
+
+				// the rows drop in behind the panel, so it does not read as a flat block
+				if (next) timeline.fromTo(items, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.2, stagger: 0.04, ease: "power2.out" }, 0.06);
+			};
+
+			closers.add(() => toggle(false));
+			trigger.addEventListener("click", () => toggle(!open));
+			root.addEventListener("pointerenter", () => toggle(true));
+			root.addEventListener("pointerleave", () => toggle(false));
+			root.addEventListener("focusin", () => toggle(true));
+			root.addEventListener("focusout", (e) => {
+				if (!root.contains(e.relatedTarget as Node)) toggle(false);
+			});
+		}
+	};
+
+	// registered once: inside init() every navigation would stack another listener
+	document.addEventListener("keydown", (e) => {
+		if (e.key === "Escape") for (const close of closers) close();
+	});
+	document.addEventListener("astro:page-load", init);
+</script>

@@ -1,0 +1,14 @@
+---
+interface Props { shots: string[]; name: string }
+const { shots, name } = Astro.props;
+---
+
+{shots.length > 0 && (
+	<ul class:list={["mt-10 grid gap-4", shots.length > 1 && "sm:grid-cols-2"]}>
+		{shots.map((src, i) => (
+			<li data-reveal class="overflow-hidden rounded-xl border border-base-300 bg-base-200">
+				<img src={src} alt={`${name}, captura ${i + 1}`} width="1200" height="750" loading="lazy" class="block h-auto w-full" />
+			</li>
+		))}
+	</ul>
+)}

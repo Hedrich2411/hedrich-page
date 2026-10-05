@@ -1,0 +1,31 @@
+---
+import site from "../../data/site.json";
+import { dateLabel, initialsOf, readingTime, type Post } from "../../lib/blog";
+
+interface Props {
+	post: Post;
+	/** "Lección 01 de 03 / La base" when the post belongs to a course */
+	eyebrow?: string;
+}
+const { post, eyebrow } = Astro.props;
+---
+
+<header>
+	{eyebrow && (
+		<p data-reveal class="text-xs font-semibold uppercase tracking-[0.14em] text-primary">{eyebrow}</p>
+	)}
+
+	<h1 data-reveal class:list={["text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl", eyebrow && "mt-5"]}>
+		{post.data.title}
+	</h1>
+	<p data-reveal class="mt-5 max-w-prose text-lg text-base-content/60">{post.data.description}</p>
+
+	<div data-reveal class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-base-300 pb-6 text-sm text-base-content/55">
+		<span class="flex size-9 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary" aria-hidden="true">
+			{initialsOf(site.name)}
+		</span>
+		<span class="font-medium text-base-content">{site.name}</span>
+		<span>{dateLabel(post.data.date)}</span>
+		<span>{readingTime(post)} min de lectura</span>
+	</div>
+</header>

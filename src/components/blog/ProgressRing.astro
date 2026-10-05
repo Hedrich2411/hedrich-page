@@ -1,0 +1,55 @@
+---
+interface Props {
+	ids: string[];
+	/** Same data contract, two shapes: a ring on the course page, a bar everywhere else. */
+	shape?: "ring" | "bar";
+	/** Renders "<done> de <total> <unit>" next to the bar. Omit for a bare bar. */
+	unit?: string;
+	suffix?: string;
+	/** the cards read the count first, the course sidebar reads the bar first */
+	labelBelow?: boolean;
+	/** On the dark course card the track and fill invert. */
+	tone?: "default" | "invert";
+	class?: string;
+}
+const { ids, shape = "ring", unit, suffix, labelBelow = false, tone = "default", class: cls } = Astro.props;
+const invert = tone === "invert";
+const labelClass = invert ? "text-primary-content/60" : "text-base-content/50";
+---
+
+<!-- Filled in from localStorage by Progress.astro; server-side it starts empty -->
+<div data-ring data-ids={ids.join(",")} class:list={[shape === "ring" && "relative shrink-0", cls ?? (shape === "ring" ? "size-12" : "")]}>
+	{shape === "ring" ? (
+		<>
+			<svg viewBox="0 0 36 36" class="size-full -rotate-90">
+				<circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="3" class="text-base-300" />
+				<circle
+					data-fill
+					cx="18" cy="18" r="16"
+					fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+					class="text-primary transition-[stroke-dashoffset] duration-500"
+					stroke-dasharray="100"
+					stroke-dashoffset="100"
+					pathLength="100"
+				/>
+			</svg>
+			<span data-count class="absolute inset-0 grid place-content-center text-[10px] font-bold tabular-nums"></span>
+		</>
+	) : (
+		<>
+			{unit && !labelBelow && (
+				<p class:list={["mb-2.5 text-xs", labelClass]}>
+					<span data-done class="tabular-nums">0</span> de {ids.length} {unit}{suffix}
+				</p>
+			)}
+			<div class:list={["h-1 overflow-hidden rounded-full", invert ? "bg-primary-content/20" : "bg-base-300"]}>
+				<div data-fill class:list={["h-full w-0 rounded-full transition-[width] duration-500", invert ? "bg-primary-content" : "bg-primary"]}></div>
+			</div>
+			{unit && labelBelow && (
+				<p class:list={["mt-2.5 text-xs", labelClass]}>
+					<span data-done class="tabular-nums">0</span> de {ids.length} {unit}{suffix}
+				</p>
+			)}
+		</>
+	)}
+</div>

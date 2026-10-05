@@ -1,0 +1,38 @@
+---
+import Icon from "../Icon.astro";
+
+export interface Item {
+	label: string;
+	href?: string;
+	external?: boolean;
+	highlight?: boolean;
+}
+interface Props { title: string; items: Item[] }
+const { title, items } = Astro.props;
+---
+
+<div>
+	<h3 class="text-[11px] font-bold uppercase tracking-wider text-base-content/40">{title}</h3>
+	<ul class="mt-4 space-y-2.5">
+		{items.map((item) => (
+			<li>
+				<a
+					href={item.href}
+					target={item.external ? "_blank" : null}
+					rel={item.external ? "noopener" : null}
+					class:list={[
+						// the underline grows from the left, same as in the navbar
+						"group relative inline-flex items-center gap-1 text-sm transition-colors hover:text-primary",
+						"after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-[260ms] hover:after:scale-x-100",
+						item.highlight ? "font-semibold text-primary" : "text-base-content/60",
+					]}
+				>
+					{item.label}
+					{item.external && (
+						<Icon name="externalLink" class="size-3 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+					)}
+				</a>
+			</li>
+		))}
+	</ul>
+</div>

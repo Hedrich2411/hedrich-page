@@ -1,0 +1,24 @@
+---
+interface Props { id: string; label?: string }
+const { id, label = "Marcar esta lección como leída" } = Astro.props;
+---
+
+<label data-reveal class="flex cursor-pointer items-start gap-3.5 border-y border-base-300 py-6">
+	<input data-mark={id} type="checkbox" class="mt-0.5 size-5 shrink-0 accent-primary" />
+	<span>
+		<span class="block font-medium">{label}</span>
+		<span class="mt-0.5 block text-sm text-base-content/50">Se guarda en este navegador.</span>
+	</span>
+</label>
+
+<script>
+	import { setRead } from "../../lib/progress";
+
+	const init = () => {
+		for (const toggle of document.querySelectorAll<HTMLInputElement>("[data-mark]")) {
+			toggle.addEventListener("change", () => setRead(toggle.dataset.mark || "", toggle.checked));
+		}
+	};
+
+	document.addEventListener("astro:page-load", init);
+</script>

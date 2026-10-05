@@ -1,0 +1,21 @@
+---
+import { isActive, links, navLinkClass } from "../../lib/navigation";
+import NavDropdown from "./NavDropdown.astro";
+const path = Astro.url.pathname;
+---
+
+<nav class="hidden lg:flex">
+	<ul class="flex items-center gap-7 text-sm font-medium">
+		{links.map((l) =>
+			l.menu ? (
+				<NavDropdown link={l} active={isActive(l, path)} />
+			) : (
+				<li>
+					<a href={l.href} aria-current={isActive(l, path) ? "page" : null} class:list={navLinkClass(isActive(l, path))}>
+						{l.label}
+					</a>
+				</li>
+			),
+		)}
+	</ul>
+</nav>

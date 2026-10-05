@@ -1,0 +1,50 @@
+---
+// No markup: installs the reading-progress behaviour for rings and ticks.
+---
+
+<script>
+	import { isRead, PROGRESS_EVENT, readIds } from "../../lib/progress";
+
+	const CHECK = `<svg class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path stroke-linecap="round" stroke-linejoin="round" d="m5 13 4 4L19 7"/></svg>`;
+
+	const paint = () => {
+		const read = new Set(readIds());
+
+		// rings: how many of the course posts are read
+		for (const ring of document.querySelectorAll<HTMLElement>("[data-ring]")) {
+			const ids = (ring.dataset.ids || "").split(",").filter(Boolean);
+			const done = ids.filter((id) => read.has(id)).length;
+			const ratio = ids.length ? done / ids.length : 0;
+
+			const fill = ring.querySelector<HTMLElement>("[data-fill]");
+			// pathLength=100 turns the dash values into a plain percentage
+			if (fill instanceof SVGCircleElement) fill.setAttribute("stroke-dashoffset", String(100 - ratio * 100));
+			else if (fill) fill.style.width = `${ratio * 100}%`;
+
+			const count = ring.querySelector<HTMLElement>("[data-count]");
+			if (count) count.textContent = `${done}/${ids.length}`;
+
+			// the bar spells the number out; the total is already in the markup
+			const doneLabel = ring.querySelector<HTMLElement>("[data-done]");
+			if (doneLabel) doneLabel.textContent = String(done);
+		}
+
+		// ticks next to each post
+		for (const tick of document.querySelectorAll<HTMLElement>("[data-tick]")) {
+			const done = read.has(tick.dataset.tick || "");
+			tick.innerHTML = done ? CHECK : "";
+			tick.classList.toggle("border-primary", done);
+			tick.classList.toggle("bg-primary/10", done);
+		}
+
+		// the "mark as read" toggle on a post page
+		for (const toggle of document.querySelectorAll<HTMLInputElement>("[data-mark]")) {
+			toggle.checked = isRead(toggle.dataset.mark || "");
+		}
+	};
+
+	// registered once at module scope: inside the page-load handler every
+	// navigation would stack another listener on top of the previous ones
+	document.addEventListener(PROGRESS_EVENT, paint);
+	document.addEventListener("astro:page-load", paint);
+</script>

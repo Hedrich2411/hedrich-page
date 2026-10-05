@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 1170" width="540" height="1170">
+<rect width="540" height="1170" fill="#FFFFFF"/>
+<rect x="0" y="0" width="540" height="210" rx="0" fill="#4F46E5"/>
+<text x="34" y="52" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="600" fill="#FFFFFF">9:41</text>
+<rect x="448" y="40" width="58" height="16" rx="8" fill="#FFFFFF33"/>
+<text x="34" y="120" font-family="Inter,system-ui,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Órdenes de campo</text>
+<text x="34" y="154" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="400" fill="#C7D2FE">Turno mañana · 12 pendientes</text>
+<rect x="26" y="248" width="488" height="98" rx="16" fill="#F8FAFC"/><rect x="26" y="248" width="488" height="98" rx="16" fill="none" stroke="#E5E7EB"/>
+<rect x="48" y="277" width="40" height="40" rx="12" fill="#D1FAE5"/>
+<text x="108" y="292" font-family="Inter,system-ui,sans-serif" font-size="16.5" font-weight="600" fill="#0F172A">Orden 4821</text><text x="108" y="318" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="400" fill="#94A3B8">Almacén central · 09:20</text>
+<circle cx="482" cy="297" r="6" fill="#10B981"/><rect x="26" y="364" width="488" height="98" rx="16" fill="#F8FAFC"/><rect x="26" y="364" width="488" height="98" rx="16" fill="none" stroke="#E5E7EB"/>
+<rect x="48" y="393" width="40" height="40" rx="12" fill="#E0E7FF"/>
+<text x="108" y="408" font-family="Inter,system-ui,sans-serif" font-size="16.5" font-weight="600" fill="#0F172A">Orden 4822</text><text x="108" y="434" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="400" fill="#94A3B8">Planta norte · 10:05</text>
+<circle cx="482" cy="413" r="6" fill="#94A3B8"/><rect x="26" y="480" width="488" height="98" rx="16" fill="#F8FAFC"/><rect x="26" y="480" width="488" height="98" rx="16" fill="none" stroke="#E5E7EB"/>
+<rect x="48" y="509" width="40" height="40" rx="12" fill="#E0E7FF"/>
+<text x="108" y="524" font-family="Inter,system-ui,sans-serif" font-size="16.5" font-weight="600" fill="#0F172A">Orden 4823</text><text x="108" y="550" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="400" fill="#94A3B8">Depósito sur · 11:40</text>
+<circle cx="482" cy="529" r="6" fill="#94A3B8"/><rect x="26" y="596" width="488" height="98" rx="16" fill="#F8FAFC"/><rect x="26" y="596" width="488" height="98" rx="16" fill="none" stroke="#E5E7EB"/>
+<rect x="48" y="625" width="40" height="40" rx="12" fill="#D1FAE5"/>
+<text x="108" y="640" font-family="Inter,system-ui,sans-serif" font-size="16.5" font-weight="600" fill="#0F172A">Orden 4824</text><text x="108" y="666" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="400" fill="#94A3B8">Almacén central · 13:15</text>
+<circle cx="482" cy="645" r="6" fill="#10B981"/><rect x="26" y="712" width="488" height="98" rx="16" fill="#F8FAFC"/><rect x="26" y="712" width="488" height="98" rx="16" fill="none" stroke="#E5E7EB"/>
+<rect x="48" y="741" width="40" height="40" rx="12" fill="#FEF3C7"/>
+<text x="108" y="756" font-family="Inter,system-ui,sans-serif" font-size="16.5" font-weight="600" fill="#0F172A">Orden 4825</text><text x="108" y="782" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="400" fill="#94A3B8">Planta norte · 15:00</text>
+<circle cx="482" cy="761" r="6" fill="#F59E0B"/><rect x="26" y="828" width="488" height="98" rx="16" fill="#F8FAFC"/><rect x="26" y="828" width="488" height="98" rx="16" fill="none" stroke="#E5E7EB"/>
+<rect x="48" y="857" width="40" height="40" rx="12" fill="#E0E7FF"/>
+<text x="108" y="872" font-family="Inter,system-ui,sans-serif" font-size="16.5" font-weight="600" fill="#0F172A">Orden 4826</text><text x="108" y="898" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="400" fill="#94A3B8">Depósito sur · 16:30</text>
+<circle cx="482" cy="877" r="6" fill="#94A3B8"/><rect x="26" y="944" width="488" height="98" rx="16" fill="#F8FAFC"/><rect x="26" y="944" width="488" height="98" rx="16" fill="none" stroke="#E5E7EB"/>
+<rect x="48" y="973" width="40" height="40" rx="12" fill="#E0E7FF"/>
+<text x="108" y="988" font-family="Inter,system-ui,sans-serif" font-size="16.5" font-weight="600" fill="#0F172A">Orden 4827</text><text x="108" y="1014" font-family="Inter,system-ui,sans-serif" font-size="13.5" font-weight="400" fill="#94A3B8">Almacén este · 17:10</text>
+<circle cx="482" cy="993" r="6" fill="#94A3B8"/>
+<rect x="200" y="1144" width="140" height="6" rx="3" fill="#F1F5F9"/>
+</svg>

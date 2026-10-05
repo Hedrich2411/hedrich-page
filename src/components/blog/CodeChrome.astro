@@ -1,0 +1,42 @@
+---
+// No markup: dresses every Shiki block in the prose with a header and a copy button.
+---
+
+<script>
+	import { ICONS } from "../../lib/icons";
+
+	const icon = (path: string) =>
+		`<svg class="size-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="${path}"/></svg>`;
+
+	const init = () => {
+		for (const pre of document.querySelectorAll<HTMLPreElement>(".prose pre.astro-code:not([data-chrome])")) {
+			pre.dataset.chrome = "";
+
+			// the fence's meta becomes the label; without one the language does
+			const label = pre.dataset.title || pre.dataset.language || "código";
+
+			const figure = document.createElement("figure");
+			figure.className = "code-figure";
+			pre.replaceWith(figure);
+
+			const bar = document.createElement("figcaption");
+			bar.className = "code-bar";
+			bar.innerHTML = `<span class="code-name">${label}</span>`;
+
+			const button = document.createElement("button");
+			button.type = "button";
+			button.className = "code-copy";
+			button.innerHTML = `${icon(ICONS.copy)}<span>Copiar</span>`;
+			button.addEventListener("click", async () => {
+				await navigator.clipboard.writeText(pre.textContent ?? "");
+				button.innerHTML = `${icon(ICONS.check)}<span>Copiado</span>`;
+				setTimeout(() => (button.innerHTML = `${icon(ICONS.copy)}<span>Copiar</span>`), 1600);
+			});
+
+			bar.append(button);
+			figure.append(bar, pre);
+		}
+	};
+
+	document.addEventListener("astro:page-load", init);
+</script>

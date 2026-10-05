@@ -1,0 +1,241 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* The palette that used to come from daisyUI's light theme, kept to the tokens
+   the site actually uses. Tailwind turns each --color-* into its own utilities. */
+@theme {
+  /* One family only: the character comes from the 800 -> 400 weight jump, not a second typeface */
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(95% 0 0);
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: oklch(45% 0.24 277.023);
+  --color-primary-content: oklch(93% 0.034 272.788);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-error: oklch(71% 0.194 13.428);
+}
+
+/* form controls and scrollbars follow the palette */
+html {
+  color-scheme: light;
+  /* masked so the glyph takes the primary color from the callout rule */
+  --icon-bulb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 21h4M12 3a6 6 0 0 0-3 11v2h6v-2a6 6 0 0 0-3-11Z'/%3E%3C/svg%3E");
+}
+
+/* the one daisyUI component worth keeping: replacing 11 call sites costs more than this */
+@utility link {
+  text-decoration-line: underline;
+  text-underline-offset: 2px;
+}
+
+@utility link-hover {
+  text-decoration-line: none;
+  &:hover {
+    text-decoration-line: underline;
+  }
+}
+
+/* Android adaptive icon: neither a circle nor a rounded square */
+@utility squircle {
+  border-radius: 28%;
+}
+
+/* Starting state for everything GSAP animates. With no JS the .to() never runs,
+   which is why <noscript> in the Layout reverts it.
+   data-anim: the component's own choreography. data-reveal: the Layout revealer. */
+[data-anim],
+[data-reveal] {
+  opacity: 0;
+}
+
+/* Static fan: what shows before GSAP takes over */
+.stack-card:nth-child(1) { transform: rotate(-4deg); }
+.stack-card:nth-child(2) { transform: rotate(1deg) scale(0.94); }
+.stack-card:nth-child(3) { transform: rotate(5deg) scale(0.88); }
+
+/* The browser drives the hero transition between card and detail;
+   with reduced motion it is cut and the change is instant. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* "Available" dot: a ring that expands and fades out.
+   box-shadow instead of a pseudo-element, so it takes no room in the flow. */
+[data-pulse] {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-success) 45%, transparent); }
+  70% { box-shadow: 0 0 0 7px color-mix(in oklab, var(--color-success) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-success) 0%, transparent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-pulse] { animation: none; }
+}
+
+/* Blog markdown. It lives here and not in prose-* classes because :not(pre) is
+   needed to tell loose inline code apart from code inside a block. */
+.prose {
+  --tw-prose-body: var(--color-base-content);
+  --tw-prose-headings: var(--color-base-content);
+  --tw-prose-bold: var(--color-base-content);
+  --tw-prose-links: var(--color-primary);
+  --tw-prose-quotes: var(--color-base-content);
+  --tw-prose-quote-borders: var(--color-primary);
+  --tw-prose-bullets: color-mix(in oklab, var(--color-base-content) 30%, transparent);
+  --tw-prose-hr: var(--color-base-300);
+  --tw-prose-th-borders: var(--color-base-300);
+  --tw-prose-td-borders: var(--color-base-300);
+  color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
+}
+
+.prose :where(h2, h3, h4) {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 6rem; /* an anchor must not land under the floating bar */
+}
+
+/* loose code inside a paragraph */
+.prose :not(pre) > code {
+  background: var(--color-base-200);
+  border: 1px solid var(--color-base-300);
+  border-radius: 0.375rem;
+  padding: 0.1rem 0.35rem;
+  font-weight: 500;
+  font-size: 0.875em;
+}
+
+/* the backticks Tailwind adds by default */
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+/* code block: Shiki paints the tokens, the frame is ours. CodeChrome wraps each
+   block in .code-figure at runtime and puts the label and copy button on top. */
+.prose .code-figure {
+  margin: 1.75rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.prose .code-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1.15rem;
+  background: #1b1f24;
+  color: #9aa4b2;
+  font-size: 0.78rem;
+  border-bottom: 1px solid #ffffff1a;
+}
+
+.prose .code-name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.prose .code-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: inherit;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.prose .code-copy:hover {
+  color: #e6edf3;
+}
+
+.prose pre {
+  margin: 0;
+  border-radius: 0;
+  padding: 1.15rem 1.15rem;
+}
+
+.prose .code-figure pre {
+  border-radius: 0;
+}
+
+/* line numbers come from a counter: Shiki already wraps every line in a span */
+.prose pre code {
+  counter-reset: line;
+}
+
+.prose pre .line::before {
+  counter-increment: line;
+  content: counter(line, decimal-leading-zero);
+  display: inline-block;
+  width: 2.2rem;
+  margin-right: 1.1rem;
+  text-align: right;
+  color: #6e7781;
+}
+
+/* a blockquote reads as the "keep this" note: title on the first line */
+.prose blockquote {
+  margin: 2rem 0;
+  border: 0;
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--color-primary) 8%, transparent);
+  padding: 1.4rem 1.6rem 1.4rem 3.4rem;
+  position: relative;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.prose blockquote::before {
+  content: "";
+  position: absolute;
+  left: 1.5rem;
+  top: 1.5rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  background: var(--color-primary);
+  mask: var(--icon-bulb) center / contain no-repeat;
+}
+
+.prose blockquote p:first-child strong {
+  display: block;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.prose blockquote p:first-child,
+.prose blockquote p:last-child {
+  margin: 0;
+}
+
+.prose blockquote p + p {
+  margin-top: 0.5rem;
+}
+
+.prose blockquote p::before,
+.prose blockquote p::after {
+  content: none;
+}
+
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 0.85em;
+}
+
+
+/* Keyboard focus. daisyUI styles its own .btn, but the hand-rolled links (navbar,
+   dock, cards, footer) fell back to the browser outline, invisible on base-200. */
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}

@@ -1,0 +1,41 @@
+---
+import PhotoStack from "./PhotoStack.astro";
+import site from "../../data/site.json";
+---
+
+<section class="flex flex-col gap-14 py-16 sm:py-24 lg:flex-row lg:items-center lg:gap-20">
+	<div class="min-w-0 lg:flex-1">
+		<!-- The wrapper clips: the name rises from below, like behind a blind -->
+		<h1 class="overflow-hidden text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl">
+			<span data-anim="name" class="block">{site.name}</span>
+		</h1>
+		<p data-anim="role" class="mt-4 text-lg text-base-content/60">{site.role}</p>
+		<div class="mt-8 space-y-4 text-base-content/80">
+			{site.bio.map((paragraph) => <p data-anim="bio" class="max-w-prose">{paragraph}</p>)}
+		</div>
+	</div>
+
+	<PhotoStack photos={site.photos} />
+</section>
+
+<script>
+	import gsap from "gsap";
+
+	const init = () => {
+		const mm = gsap.matchMedia();
+
+		mm.add("(prefers-reduced-motion: no-preference)", () => {
+			const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.8 } });
+			tl.fromTo("[data-anim='name']", { yPercent: 110 }, { yPercent: 0, opacity: 1 })
+				.fromTo("[data-anim='role']", { y: 14 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.45")
+				.fromTo("[data-anim='bio']", { y: 14 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.12 }, "-=0.3");
+			return () => tl.kill();
+		});
+
+		mm.add("(prefers-reduced-motion: reduce)", () => {
+			gsap.set("[data-anim]", { opacity: 1 });
+		});
+	};
+
+	document.addEventListener("astro:page-load", init);
+</script>

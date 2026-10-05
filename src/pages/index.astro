@@ -1,38 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Hero from "../components/home/Hero.astro";
+import Experience from "../components/home/Experience.astro";
+import Projects from "../components/home/Projects.astro";
+import site from "../data/site.json";
 ---
 
-<Layout title="Cargando…">
-	<main>
-		<span class="dot"></span>
-		<p>Cargando</p>
+<Layout title="Inicio" description={site.bio[0]}>
+	<main class="mx-auto max-w-5xl px-6 pb-32">
+		<Hero />
+		<Projects />
+		<Experience />
 	</main>
 </Layout>
-
-<style>
-	main {
-		min-height: 100vh;
-		display: grid;
-		place-content: center;
-		justify-items: center;
-		gap: 1.25rem;
-	}
-	p {
-		margin: 0;
-		font-size: 0.85rem;
-		letter-spacing: 0.3em;
-		text-transform: uppercase;
-		color: var(--muted);
-	}
-	.dot {
-		width: 10px;
-		height: 10px;
-		border-radius: 50%;
-		background: var(--fg);
-		animation: pulse 1.4s ease-in-out infinite;
-	}
-	@keyframes pulse {
-		0%, 100% { transform: scale(1); opacity: 1; }
-		50% { transform: scale(1.8); opacity: 0.3; }
-	}
-</style>

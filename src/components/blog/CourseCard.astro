@@ -1,0 +1,61 @@
+---
+import type { CourseOutline } from "../../lib/blog";
+import { TECHNOLOGIES } from "../../lib/technologies";
+import Icon from "../shared/Icon.astro";
+import ProgressRing from "./ProgressRing.astro";
+
+interface Props {
+	outline: CourseOutline;
+	/** the first route is the dark one; the rest stay light */
+	dark?: boolean;
+}
+const { outline, dark = false } = Astro.props;
+const { course, sections, posts } = outline;
+const label = course.data.kind === "curso" ? "Empezar el curso" : "Explorar el tutorial";
+---
+
+<li data-entry={course.data.topic} data-reveal class="flex">
+	<a
+		href={`/blog/${posts[0].id}`}
+		class:list={[
+			"group flex w-full flex-col rounded-2xl p-7 transition-transform duration-300 hover:-translate-y-0.5",
+			dark ? "bg-base-content text-base-100" : "bg-primary/8 text-base-content",
+		]}
+	>
+		<div class="flex items-start justify-between gap-4">
+			<p class:list={["text-xs font-semibold uppercase tracking-[0.14em]", dark ? "text-base-100/60" : "text-primary"]}>
+				{course.data.kind} · {course.data.level}
+			</p>
+			<Icon name={course.data.kind === "curso" ? "braces" : "plug"} class:list={["size-5 shrink-0", dark ? "text-base-100/70" : "text-primary"]} />
+		</div>
+
+		<h3 class="mt-6 text-3xl font-extrabold leading-[1.1] tracking-tight">{course.data.title}</h3>
+
+		<p class:list={["mt-4 flex-1 text-sm leading-relaxed", dark ? "text-base-100/70" : "text-base-content/70"]}>
+			{course.data.description}
+		</p>
+
+		<ul class:list={["mt-6 flex flex-wrap items-center gap-x-2 text-xs", dark ? "text-base-100/60" : "text-primary"]}>
+			{course.data.stack.map((slug, i) => (
+				<>
+					{i > 0 && <li aria-hidden="true" class="opacity-40">/</li>}
+					<li>{TECHNOLOGIES[slug]?.name ?? slug}</li>
+				</>
+			))}
+		</ul>
+
+		<ProgressRing
+			ids={posts.map((p) => p.id)}
+			shape="bar"
+			tone={dark ? "invert" : "default"}
+			unit="entradas leídas"
+			suffix={` · ${sections.length} ${sections.length === 1 ? "sección" : "secciones"}`}
+			class="mt-6"
+		/>
+
+		<span class:list={["mt-6 flex items-center justify-between border-t pt-5 text-sm font-medium", dark ? "border-base-100/15" : "border-primary/15 text-primary"]}>
+			{label}
+			<Icon name="externalLink" class="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+		</span>
+	</a>
+</li>

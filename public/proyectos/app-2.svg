@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 1170" width="540" height="1170">
+<rect width="540" height="1170" fill="#FFFFFF"/>
+<rect x="0" y="0" width="540" height="210" rx="0" fill="#4F46E5"/>
+<text x="34" y="52" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="600" fill="#FFFFFF">9:41</text>
+<rect x="448" y="40" width="58" height="16" rx="8" fill="#FFFFFF33"/>
+<text x="34" y="120" font-family="Inter,system-ui,sans-serif" font-size="27" font-weight="700" fill="#FFFFFF">Orden 4822</text>
+<text x="34" y="154" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="400" fill="#C7D2FE">Planta norte · en curso</text>
+<text x="34" y="260" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#94A3B8">Cliente</text><text x="34" y="288" font-family="Inter,system-ui,sans-serif" font-size="16" font-weight="400" fill="#0F172A">Distribuidora Andina S.A.C</text>
+<line x1="34" y1="312" x2="506" y2="312" stroke="#E5E7EB"/><text x="34" y="352" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#94A3B8">Dirección</text><text x="34" y="380" font-family="Inter,system-ui,sans-serif" font-size="16" font-weight="400" fill="#0F172A">Av. Argentina 2340, Callao</text>
+<line x1="34" y1="404" x2="506" y2="404" stroke="#E5E7EB"/><text x="34" y="444" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#94A3B8">Contacto</text><text x="34" y="472" font-family="Inter,system-ui,sans-serif" font-size="16" font-weight="400" fill="#0F172A">+51 987 654 321</text>
+<line x1="34" y1="496" x2="506" y2="496" stroke="#E5E7EB"/><text x="34" y="536" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#94A3B8">Programada</text><text x="34" y="564" font-family="Inter,system-ui,sans-serif" font-size="16" font-weight="400" fill="#0F172A">10:05 · 16 set 2026</text>
+<line x1="34" y1="588" x2="506" y2="588" stroke="#E5E7EB"/><text x="34" y="628" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#94A3B8">Ítems</text><text x="34" y="656" font-family="Inter,system-ui,sans-serif" font-size="16" font-weight="400" fill="#0F172A">8 unidades · 2 lotes</text>
+<line x1="34" y1="680" x2="506" y2="680" stroke="#E5E7EB"/>
+<rect x="34" y="740" width="472" height="96" rx="16" fill="#F8FAFC"/><rect x="34" y="740" width="472" height="96" rx="16" fill="none" stroke="#E5E7EB"/>
+<text x="56" y="778" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#94A3B8">Firma del receptor</text><text x="56" y="812" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="400" fill="#F59E0B">Pendiente de captura</text>
+<rect x="34" y="880" width="472" height="76" rx="18" fill="#4F46E5"/><text x="192" y="927" font-family="Inter,system-ui,sans-serif" font-size="17" font-weight="600" fill="#FFFFFF">Marcar entregada</text>
+<rect x="34" y="976" width="472" height="76" rx="18" fill="#FFFFFF"/><rect x="34" y="976" width="472" height="76" rx="18" fill="none" stroke="#E5E7EB"/>
+<text x="218" y="1023" font-family="Inter,system-ui,sans-serif" font-size="17" font-weight="600" fill="#0F172A">Reprogramar</text>
+<rect x="200" y="1144" width="140" height="6" rx="3" fill="#F1F5F9"/>
+</svg>

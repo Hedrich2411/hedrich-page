@@ -1,0 +1,418 @@
+{
+  "name": "Hedrich Apaza",
+  "role": "Desarrollador Full Stack en Lima, Perú",
+  "contact": {
+    "location": "Lima, Perú",
+    "email": "Vlandemir2411@hotmail.com",
+    "phone": "+51 965 652 097",
+    "linkedin": "https://linkedin.com/in/hedrich-apaza-zarate",
+    "github": "https://github.com/Hedrich2411"
+  },
+  "bio": [
+    "Desarrollador Full Stack con experiencia en el diseño e integración de sistemas empresariales, de la base de datos al despliegue.",
+    "Sólidos conocimientos en Python (Django, FastAPI) y JavaScript (React, Next.js, React Native), además de Docker, Nginx y despliegues en la nube.",
+    "Me mueve construir soluciones eficientes, seguras y escalables, con un enfoque técnico y orientado a resultados."
+  ],
+  "photos": [
+    "",
+    "",
+    ""
+  ],
+  "experience": [
+    {
+      "role": "Desarrollador Semi Senior",
+      "company": "Newport Capital S.A.C",
+      "from": "2024-11",
+      "to": "",
+      "areas": [
+        {
+          "title": "Aplicaciones móviles",
+          "points": [
+            "Apps internas con React Native y Kotlin para optimizar procesos operativos y administrativos.",
+            "Mantenimiento, actualización y publicación en Google Play, cuidando rendimiento, estabilidad y compatibilidad con cada versión nueva de Android."
+          ]
+        },
+        {
+          "title": "Backend",
+          "points": [
+            "APIs RESTful con FastAPI y Django para sistemas de gestión y automatización de procedimientos, con foco en seguridad y escalabilidad."
+          ]
+        },
+        {
+          "title": "Frontend",
+          "points": [
+            "Interfaces web con React sobre Vite, Next.js y Nuxt.js, priorizando experiencia de usuario y rendimiento."
+          ]
+        }
+      ],
+      "layers": [
+        "Backend",
+        "Frontend",
+        "Móvil"
+      ],
+      "summary": "Apps internas con React Native y Kotlin, publicadas y mantenidas en Google Play. Las APIs que las alimentan con FastAPI y Django, y las interfaces web que las administran.",
+      "stack": [
+        "python",
+        "fastapi",
+        "django",
+        "react",
+        "reactnative",
+        "kotlin",
+        "nextdotjs",
+        "nuxt"
+      ]
+    },
+    {
+      "role": "Analista ERP",
+      "company": "Beca Inmobiliaria S.A.C",
+      "from": "2024-05",
+      "to": "2024-10",
+      "areas": [
+        {
+          "title": "CRM en Odoo",
+          "points": [
+            "Implementación y personalización de módulos CRM en Odoo 16 Enterprise según los requisitos del negocio.",
+            "Funcionalidades nuevas y ajustes de interfaz con el framework OWL."
+          ]
+        },
+        {
+          "title": "Migración de plataforma",
+          "points": [
+            "Migración del entorno de Odoo desde odoo.sh a Google Cloud, sin interrupciones de servicio.",
+            "Configuración y optimización de instancias en Google Cloud para mejorar rendimiento y escalabilidad."
+          ]
+        },
+        {
+          "title": "Integraciones",
+          "points": [
+            "Integración entre Odoo y otros sistemas mediante APIs, webhooks y protocolos HTTP/JSON.",
+            "Flujos de trabajo automatizados para sincronizar datos entre plataformas y módulos."
+          ]
+        }
+      ],
+      "layers": [
+        "Backend",
+        "ERP",
+        "Infraestructura"
+      ],
+      "summary": "Módulos CRM a medida en Odoo 16 con OWL, migración del entorno a Google Cloud e integraciones con otros sistemas vía API y webhooks.",
+      "stack": [
+        "python",
+        "odoo",
+        "javascript",
+        "googlecloud"
+      ]
+    },
+    {
+      "role": "Desarrollador Web",
+      "company": "Prolabels S.A",
+      "from": "2022-10",
+      "to": "2023-01",
+      "areas": [
+        {
+          "title": "Módulo de asistencia",
+          "points": [
+            "Integración de datos desde marcadores de tarjetas y modelos propios para horarios, ausencias, horas adicionales y cierres de mes.",
+            "Reportes de tardanzas, asistencia y rotación de empleados."
+          ]
+        },
+        {
+          "title": "Módulo de planillas",
+          "points": [
+            "Cálculo automático de horas extras, rentas, gratificaciones, AFP, CTS y comisiones.",
+            "Asientos contables, archivos para la PDT Plame y reportes de boletas, AFP e ingresos y descuentos."
+          ]
+        },
+        {
+          "title": "Integraciones y facturación",
+          "points": [
+            "Guías electrónicas contra la API de SUNAT (XML, CDR, stock), comparativa con SIRE y actualización de la facturación electrónica ante nuevas normativas."
+          ]
+        },
+        {
+          "title": "Despliegue",
+          "points": [
+            "Aplicaciones web sobre Docker, Docker Compose y Nginx en entornos Linux."
+          ]
+        }
+      ],
+      "layers": [
+        "Backend",
+        "ERP",
+        "Infraestructura"
+      ],
+      "summary": "Módulos de asistencia y planillas: horas extras, AFP, CTS y PDT Plame. Facturación electrónica contra la API de SUNAT y despliegue con Docker y Nginx.",
+      "stack": [
+        "python",
+        "django",
+        "docker",
+        "nginx",
+        "linux"
+      ]
+    },
+    {
+      "role": "Desarrollador Backend",
+      "company": "LithoLaser S.A",
+      "from": "2022-07",
+      "to": "2022-09",
+      "areas": [
+        {
+          "title": "Proyectos en Django",
+          "points": [
+            "Ediciones y actualizaciones sobre proyectos existentes.",
+            "Herramientas y funcionalidades nuevas, adaptadas a lo que pedían los usuarios."
+          ]
+        },
+        {
+          "title": "Automatización",
+          "points": [
+            "Ampliación de scripts de automatización para gestionar archivos en servidores de forma más eficiente."
+          ]
+        },
+        {
+          "title": "Integraciones",
+          "points": [
+            "APIs para comunicar e intercambiar datos entre sistemas distintos."
+          ]
+        }
+      ],
+      "layers": [
+        "Backend",
+        "Infraestructura"
+      ],
+      "summary": "Mantenimiento y funcionalidades nuevas sobre proyectos Django, scripts de automatización en servidores e integración de APIs entre sistemas.",
+      "stack": [
+        "python",
+        "django",
+        "linux"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "title": "Bachiller en Ingeniería Electrónica",
+      "institution": "Universidad Nacional del Callao",
+      "date": "2021-08"
+    }
+  ],
+  "status": {
+    "available": true,
+    "availableLabel": "Aceptando freelance",
+    "timezone": "America/Lima",
+    "gmt": "GMT-5",
+    "workMode": "Trabajo remoto"
+  },
+  "projects": [
+    {
+      "slug": "planillas-asistencia",
+      "name": "Planillas y asistencia",
+      "kind": "Sistema interno",
+      "year": "2023",
+      "summary": "Cálculo de horas extras, rentas, gratificaciones, AFP y CTS, con los asientos contables y el archivo para la PDT Plame que antes se armaban a mano en cada cierre de mes.",
+      "impact": "Reemplazó el cierre manual de planillas",
+      "stack": [
+        "python",
+        "django",
+        "docker",
+        "nginx",
+        "linux"
+      ],
+      "url": "",
+      "problem": "El cierre de mes se armaba a mano en hojas de cálculo: horas extras, AFP, CTS y gratificaciones se calculaban una por una, y cualquier corrección obligaba a rehacer todos los reportes.",
+      "solution": "Modelé horarios, ausencias y horas adicionales sobre los datos de los marcadores de tarjeta, y automaticé el cálculo completo hasta generar los asientos contables y el archivo de la PDT Plame.",
+      "shots": [
+        "/proyectos/planillas-1.svg",
+        "/proyectos/planillas-2.svg"
+      ],
+      "screens": []
+    },
+    {
+      "slug": "sunat",
+      "name": "Facturación electrónica con SUNAT",
+      "kind": "Integración",
+      "year": "2023",
+      "summary": "Guías electrónicas contra la API de SUNAT —XML, CDR y control de stock— más la comparativa con el sistema SIRE para detectar diferencias antes de declarar.",
+      "impact": "La facturación se mantiene al día con cada cambio normativo",
+      "stack": [
+        "python",
+        "django"
+      ],
+      "url": "",
+      "problem": "Cada cambio normativo de SUNAT rompía la emisión, y las diferencias con lo declarado aparecían recién al cerrar el periodo, cuando ya era tarde para corregirlas.",
+      "solution": "Integré las guías electrónicas contra la API de SUNAT manejando XML, CDR y stock, y agregué una comparativa contra el sistema SIRE que muestra las diferencias antes de declarar.",
+      "shots": [
+        "/proyectos/sunat-1.svg",
+        "/proyectos/sunat-2.svg"
+      ],
+      "screens": []
+    },
+    {
+      "slug": "odoo-cloud",
+      "name": "Migración del ERP a Google Cloud",
+      "kind": "Infraestructura",
+      "year": "2024",
+      "summary": "Mudanza de Odoo 16 Enterprise desde odoo.sh a instancias propias en Google Cloud, con la configuración afinada para aguantar la carga real de la operación.",
+      "impact": "Sin interrupciones de servicio durante el cambio",
+      "stack": [
+        "odoo",
+        "googlecloud",
+        "docker",
+        "python"
+      ],
+      "url": "",
+      "problem": "El ERP vivía en odoo.sh, sin control sobre los recursos ni margen para afinar el rendimiento cuando la operación creció.",
+      "solution": "Migré el entorno completo a instancias propias en Google Cloud y ajusté la configuración a la carga real, coordinando el corte para que la operación no se detuviera.",
+      "shots": [
+        "/proyectos/odoo-1.svg",
+        "/proyectos/odoo-2.svg"
+      ],
+      "screens": []
+    },
+    {
+      "slug": "apps-internas",
+      "name": "Apps internas en Google Play",
+      "kind": "App móvil",
+      "year": "2025",
+      "summary": "Aplicaciones para los procesos operativos y administrativos, con sus APIs en FastAPI, publicadas y mantenidas en Play al ritmo de cada versión nueva de Android.",
+      "impact": "Procesos de campo que antes iban en papel",
+      "stack": [
+        "kotlin",
+        "reactnative",
+        "fastapi",
+        "django"
+      ],
+      "url": "",
+      "problem": "Los procesos operativos de campo se registraban en papel y se pasaban a sistema después, con el desfase y los errores de transcripción que eso trae.",
+      "solution": "Desarrollé las apps en React Native y Kotlin con sus APIs en FastAPI, y me encargo de publicarlas y mantenerlas en Play al ritmo de cada versión nueva de Android.",
+      "shots": [
+        "/proyectos/apps-2.svg"
+      ],
+      "screens": [
+        "/proyectos/app-1.svg",
+        "/proyectos/app-2.svg",
+        "/proyectos/app-3.svg"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "name": "Aplicaciones móviles",
+      "summary": "Apps en React Native o Kotlin, desde la idea hasta la ficha publicada.",
+      "includes": [
+        "Desarrollo y pruebas",
+        "Publicación en Google Play",
+        "Firmas, políticas y revisiones",
+        "Compatibilidad con cada versión de Android"
+      ],
+      "stack": [
+        "kotlin",
+        "reactnative"
+      ]
+    },
+    {
+      "name": "Sistemas web a medida",
+      "summary": "La API que guarda los datos y la interfaz desde la que se administran.",
+      "includes": [
+        "APIs REST con FastAPI o Django",
+        "Paneles en React, Next.js o Nuxt",
+        "Modelado de base de datos",
+        "Autenticación y permisos"
+      ],
+      "stack": [
+        "python",
+        "fastapi",
+        "django",
+        "react"
+      ]
+    },
+    {
+      "name": "Integraciones y ERP",
+      "summary": "Conectar lo que ya usás con lo que necesitás que hable con eso.",
+      "includes": [
+        "Módulos a medida en Odoo",
+        "Facturación electrónica con SUNAT",
+        "Webhooks y sincronización entre plataformas",
+        "Automatización de procesos internos"
+      ],
+      "stack": [
+        "odoo",
+        "python"
+      ]
+    },
+    {
+      "name": "Infraestructura y despliegue",
+      "summary": "Que tu sistema corra en un servidor propio y siga corriendo.",
+      "includes": [
+        "Docker y Nginx sobre Linux",
+        "Despliegue en Google Cloud",
+        "Migraciones sin cortar el servicio",
+        "Respaldos y tareas programadas"
+      ],
+      "stack": [
+        "docker",
+        "nginx",
+        "linux",
+        "googlecloud"
+      ]
+    },
+    {
+      "name": "Rescate de proyectos",
+      "summary": "Código heredado que ya nadie toca y que igual hay que mantener.",
+      "includes": [
+        "Diagnóstico de qué se puede salvar",
+        "Actualización de dependencias",
+        "Documentación de lo que hace",
+        "Continuidad o migración, según convenga"
+      ],
+      "stack": [
+        "python",
+        "django",
+        "docker"
+      ]
+    }
+  ],
+  "process": [
+    {
+      "step": "Hablamos",
+      "detail": "Media hora para entender qué necesitás. Si no es para mí, te lo digo ahí mismo y te oriento hacia quién sí."
+    },
+    {
+      "step": "Propuesta",
+      "detail": "Alcance, plazo y precio por escrito antes de escribir una línea de código. Sin sorpresas después."
+    },
+    {
+      "step": "Construyo",
+      "detail": "Entregas parciales para que veas el avance y corrijas temprano, no una caja negra que abre al final."
+    },
+    {
+      "step": "Sostengo",
+      "detail": "Correcciones, actualizaciones y los cambios que las plataformas piden todos los años."
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Cómo cobrás?",
+      "a": "Por proyecto cerrado cuando el alcance está claro, que es lo que a vos te conviene porque sabés el total desde el principio. Por hora solo en mantenimiento o cuando el alcance todavía se está definiendo."
+    },
+    {
+      "q": "¿Cuánto tarda?",
+      "a": "Lo estimo después de la primera conversación, cuando sé qué hay que construir. Lo que no hago es arrancar sin un plazo escrito."
+    },
+    {
+      "q": "Ya tengo algo hecho a medias, ¿sirve?",
+      "a": "Lo reviso y te digo con honestidad si conviene continuarlo o rehacerlo. A veces salvar código viejo cuesta más que empezar de nuevo, y a veces es al revés."
+    },
+    {
+      "q": "¿Trabajás con empresas fuera de Perú?",
+      "a": "Sí, en remoto. Estoy en Lima, GMT-5, así que coincido con casi toda América en horario laboral."
+    },
+    {
+      "q": "¿El código queda mío?",
+      "a": "Sí. Se entrega con el repositorio y la documentación para que cualquier otro desarrollador pueda continuarlo."
+    },
+    {
+      "q": "¿Te encargás de publicar la app?",
+      "a": "Sí, va incluido: la cuenta de desarrollador, la ficha, las políticas de privacidad y el ida y vuelta con la revisión de Google."
+    }
+  ]
+}

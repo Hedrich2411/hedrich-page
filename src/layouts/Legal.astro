@@ -1,0 +1,33 @@
+---
+import Layout from "./Layout.astro";
+
+interface Props {
+	title: string;
+	description: string;
+	actualizado: string;
+	sections: [string, string][];
+	footer: { href: string; label: string };
+}
+const { title, description, actualizado, sections, footer } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+	<main class="mx-auto max-w-2xl px-6 pb-24 pt-10">
+		<header class="mb-14 border-b border-base-300 pb-8">
+			<h1 class="text-3xl font-medium tracking-tight sm:text-4xl">{title}</h1>
+			<p class="mt-2 text-sm text-base-content/60">Última actualización: {actualizado}</p>
+		</header>
+
+		{sections.map(([title, body]) => (
+			<section class="mb-10">
+				<h2 class="mb-2 font-semibold">{title}</h2>
+				{/* the bodies are constants declared in the page, never user input */}
+				<p class="text-base-content/80" set:html={body} />
+			</section>
+		))}
+
+		<footer class="mt-16 border-t border-base-300 pt-8 text-sm">
+			<a class="link" href={footer.href}>{footer.label}</a>
+		</footer>
+	</main>
+</Layout>

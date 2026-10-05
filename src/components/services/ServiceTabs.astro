@@ -1,0 +1,39 @@
+---
+import { services, slugOf } from "../../lib/services";
+
+interface Props { current: string }
+const { current } = Astro.props;
+---
+
+{/* there is no services index: this strip is how you reach the rest, dock included */}
+<nav data-reveal aria-label="Servicios" class="-mx-6 overflow-x-auto px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+	<ul class="flex w-max gap-2">
+		{services.map((service) => {
+			const slug = slugOf(service);
+			return (
+				<li>
+					<a
+						href={`/servicios/${slug}`}
+						aria-current={slug === current ? "page" : null}
+						class:list={[
+							"block whitespace-nowrap rounded-full border px-4 py-1.5 text-sm transition-colors",
+							slug === current
+								? "border-primary bg-primary text-primary-content"
+								: "border-base-300 text-base-content/70 hover:border-primary/50 hover:text-primary",
+						]}
+					>
+						{service.name}
+					</a>
+				</li>
+			);
+		})}
+	</ul>
+</nav>
+
+<script>
+	// on mobile the strip scrolls: bring the current service into view
+	document.addEventListener("astro:page-load", () => {
+		const current = document.querySelector<HTMLElement>('[aria-label="Servicios"] [aria-current="page"]');
+		current?.scrollIntoView({ block: "nearest", inline: "center" });
+	});
+</script>

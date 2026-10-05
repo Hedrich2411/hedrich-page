@@ -1,0 +1,74 @@
+---
+import Icon from "../shared/Icon.astro";
+import type { IconName } from "../../lib/icons";
+
+interface Props {
+	label: string;
+	value: string;
+	href: string;
+	external?: boolean;
+	/** Offers copy-to-clipboard, for the email and the phone. */
+	copyable?: boolean;
+	/** Icon from the shared set; a brand logo can be passed as a raw path instead. */
+	icon?: IconName;
+	logo?: string;
+}
+const { label, value, href, external = false, copyable = false, icon = "mail", logo } = Astro.props;
+---
+
+<li data-reveal class="flex items-center gap-4 border-t border-base-300 py-5">
+	<span class="flex size-10 shrink-0 items-center justify-center rounded-xl border border-base-300 text-base-content/60">
+		{logo ? <svg class="size-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d={logo} /></svg> : <Icon name={icon} />}
+	</span>
+
+	<span class="min-w-0 flex-1">
+		<span class="block text-xs text-base-content/50">{label}</span>
+		<a
+			href={href}
+			target={external ? "_blank" : null}
+			rel={external ? "noopener" : null}
+			class="link link-hover block truncate font-medium"
+		>
+			{value}
+		</a>
+	</span>
+
+	{copyable && (
+		<button
+			type="button"
+			data-copy={value}
+			aria-label={`Copiar ${label.toLowerCase()}`}
+			class="flex size-9 shrink-0 items-center justify-center rounded-lg border border-base-300 text-base-content/50 transition-colors hover:border-primary hover:text-primary"
+		>
+			<Icon name="copy" class="size-4" />
+			<Icon name="check" class="hidden size-4" />
+		</button>
+	)}
+</li>
+
+<script>
+	const init = () => {
+		for (const buttonClass of document.querySelectorAll<HTMLButtonElement>("[data-copy]")) {
+			const [copyIcon, checkIcon] = buttonClass.querySelectorAll("svg");
+
+			buttonClass.addEventListener("click", async () => {
+				try {
+					await navigator.clipboard.writeText(buttonClass.dataset.copiar || "");
+				} catch {
+					return; // clipboard denied: the link next to it still works
+				}
+				// brief feedback: the icon flips to a check and back
+				copyIcon.classList.add("hidden");
+				checkIcon.classList.remove("hidden");
+				buttonClass.classList.add("border-primary", "text-primary");
+				setTimeout(() => {
+					copyIcon.classList.remove("hidden");
+					checkIcon.classList.add("hidden");
+					buttonClass.classList.remove("border-primary", "text-primary");
+				}, 1600);
+			});
+		}
+	};
+
+	document.addEventListener("astro:page-load", init);
+</script>

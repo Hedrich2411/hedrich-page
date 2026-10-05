@@ -1,0 +1,16 @@
+---
+import site from "../../../data/site.json";
+import Icon from "../Icon.astro";
+import Social from "./Social.astro";
+---
+
+<div class="max-w-sm">
+	<a href="/" class="flex items-center gap-2.5">
+		<span class="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-content">
+			<Icon name="terminal" class="size-4" />
+		</span>
+		<span class="text-base font-bold">hedrich.dev</span>
+	</a>
+	<p class="mt-4 text-sm leading-relaxed text-base-content/60">{site.bio[0]}</p>
+	<Social />
+</div>

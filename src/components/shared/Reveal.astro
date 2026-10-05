@@ -1,0 +1,60 @@
+---
+// No markup: installs the site-wide revealer. Any [data-reveal] enters when its
+// section shows up, with the same movement the Hero uses.
+---
+
+<script>
+	import gsap from "gsap";
+
+	// Un auto revelador para todo el sitio: cualquier [data-reveal] enters cuando
+	// su sección aparece. Los componentes con coreografía propia usan [data-anim].
+	// Al navegar, el contenido nuevo entra con opacity 0 y no se ve hasta que
+	// astro:page-load dispara el observador: 54 ms de página en blanco.
+	// after-swap corre antes del primer pintado, así que lo que ya está en pantalla
+	// se muestra de una; lo de más abajo conserva su entrada por scroll.
+	document.addEventListener("astro:after-swap", () => {
+		for (const el of document.querySelectorAll<HTMLElement>("[data-reveal]")) {
+			if (el.getBoundingClientRect().top < innerHeight) {
+				el.style.opacity = "1";
+				el.dataset.revealed = "";
+			}
+		}
+	});
+
+	const init = () => {
+		const mm = gsap.matchMedia();
+
+		mm.add("(prefers-reduced-motion: reduce)", () => {
+			gsap.set("[data-reveal]", { opacity: 1 });
+		});
+
+		mm.add("(prefers-reduced-motion: no-preference)", () => {
+			// grouped by section so they stagger in, instead of one loose element at a time
+			const groups = new Map<Element, HTMLElement[]>();
+			for (const el of document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-revealed])")) {
+				const section = el.closest("[data-reveal-group], section, footer, main") ?? document.body;
+				groups.set(section, [...(groups.get(section) ?? []), el]);
+			}
+			if (!groups.size) return;
+
+			const io = new IntersectionObserver(
+				(entries) => {
+					for (const e of entries) {
+						if (!e.isIntersecting) continue;
+						io.unobserve(e.target);
+						gsap.fromTo(
+							groups.get(e.target) ?? [],
+							{ y: 16 },
+							{ y: 0, opacity: 1, duration: 0.6, stagger: 0.09, ease: "power3.out" },
+						);
+					}
+				},
+				{ threshold: 0.12 },
+			);
+			for (const section of groups.keys()) io.observe(section);
+			return () => io.disconnect();
+		});
+	};
+
+	document.addEventListener("astro:page-load", init);
+</script>

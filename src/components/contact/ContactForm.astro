@@ -1,0 +1,144 @@
+---
+import { enquiryKinds } from "../../lib/enquiry";
+import { ICONS } from "../../lib/icons";
+import Icon from "../shared/Icon.astro";
+
+const personIcon = "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4.5 20a7.5 7.5 0 0 1 15 0";
+// the field chrome repeats on every control, so it lives in one place
+const field = "w-full rounded-lg border border-base-300 bg-base-100 px-3.5 py-2.5 text-sm outline-none transition-colors placeholder:text-base-content/40 focus:border-primary";
+---
+
+<form data-form action="/api/contacto" method="POST" class="rounded-2xl border border-base-300 bg-base-100">
+	<div class="flex flex-col gap-5 p-6 sm:p-8">
+		<!-- Honeypot: a human never sees it, let alone fills it -->
+		<input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+
+		<div class="grid gap-5 sm:grid-cols-2">
+			<div>
+				<label class="block pb-1.5 text-sm font-medium" for="f-name">Tu nombre</label>
+				<label data-field class:list={["flex items-center gap-2.5", field]}>
+					<svg class="size-4 shrink-0 opacity-45" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d={personIcon} /></svg>
+					<input id="f-name" name="name" type="text" required maxlength="120" autocomplete="name" placeholder="Cómo te llamás" class="w-full bg-transparent outline-none" />
+				</label>
+				<p data-error="name" class="mt-1.5 hidden text-xs text-error"></p>
+			</div>
+
+			<div>
+				<label class="block pb-1.5 text-sm font-medium" for="f-mail">Tu correo</label>
+				<label data-field class:list={["flex items-center gap-2.5", field]}>
+					<svg class="size-4 shrink-0 opacity-45" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d={ICONS.mail} /></svg>
+					<input id="f-mail" name="email" type="email" required maxlength="200" autocomplete="email" placeholder="para responderte" class="w-full bg-transparent outline-none" />
+				</label>
+				<p data-error="email" class="mt-1.5 hidden text-xs text-error"></p>
+			</div>
+		</div>
+
+		<div>
+			<label class="block pb-1.5 text-sm font-medium" for="f-kind">Qué necesitás</label>
+			<select id="f-kind" name="kind" class={field}>
+				{enquiryKinds.map((k) => <option>{k}</option>)}
+			</select>
+		</div>
+
+		<div>
+			<label class="block pb-1.5 text-sm font-medium" for="f-message">Contame un poco más</label>
+			<textarea
+				data-field
+				id="f-message"
+				name="message"
+				required
+				maxlength="4000"
+				rows="5"
+				placeholder="Qué querés construir, si ya existe algo, para cuándo lo necesitás."
+				class:list={["resize-y", field]}
+			></textarea>
+			<p data-error="message" class="mt-1.5 hidden text-xs text-error"></p>
+			<p class="mt-1.5 text-xs text-base-content/45">Respondo el mismo día hábil.</p>
+		</div>
+
+		<div data-notice role="status" class="hidden"></div>
+
+		<div>
+			<button
+				type="submit"
+				class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-content transition-colors hover:bg-primary/90 disabled:opacity-60 sm:w-auto"
+			>
+				<span data-loading class="hidden size-4 animate-spin rounded-full border-2 border-current border-t-transparent"></span>
+				<span data-label>Enviar mensaje</span>
+				<Icon name="arrow" class="size-4" />
+			</button>
+		</div>
+	</div>
+</form>
+
+<script>
+	const init = () => {
+		const form = document.querySelector<HTMLFormElement>("[data-form]");
+		if (!form) return;
+
+		const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+		const label = form.querySelector<HTMLElement>("[data-label]")!;
+		const loading = form.querySelector<HTMLElement>("[data-loading]")!;
+		const notice = form.querySelector<HTMLElement>("[data-notice]")!;
+
+		const errors = form.querySelectorAll<HTMLElement>("[data-error]");
+
+		// the control is either the field itself (textarea) or its wrapper label
+		const fieldOf = (name: string) => {
+			const input = form.querySelector<HTMLElement>(`[name="${name}"]`);
+			return input?.matches("[data-field]") ? input : (input?.closest("[data-field]") as HTMLElement | null);
+		};
+
+		const clearErrors = () => {
+			for (const slot of errors) {
+				slot.classList.add("hidden");
+				slot.textContent = "";
+				fieldOf(slot.dataset.error || "")?.classList.remove("border-error");
+			}
+		};
+
+		// one message per field, straight from the zod schema
+		const showErrors = (fields: Record<string, string>) => {
+			for (const [field, message] of Object.entries(fields)) {
+				const slot = form.querySelector<HTMLElement>(`[data-error="${field}"]`);
+				if (!slot) continue;
+				slot.textContent = message;
+				slot.classList.remove("hidden");
+				fieldOf(field)?.classList.add("border-error");
+			}
+		};
+
+		const say = (message: string, ok: boolean) => {
+			notice.className = `rounded-lg border px-4 py-3 text-sm ${
+				ok ? "border-success/40 bg-success/10 text-base-content" : "border-error/40 bg-error/10 text-base-content"
+			}`;
+			notice.textContent = message;
+		};
+
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+
+			button.disabled = true;
+			label.textContent = "Enviando";
+			loading.classList.remove("hidden");
+			notice.className = "hidden";
+			clearErrors();
+
+			try {
+				const r = await fetch(form.action, { method: "POST", body: new FormData(form) });
+				const { message, fields } = await r.json();
+				say(message, r.ok);
+				if (fields) showErrors(fields);
+				if (r.ok) form.reset();
+			} catch {
+				say("No se pudo conectar. Escribime directo al correo de al lado.", false);
+			} finally {
+				button.disabled = false;
+				label.textContent = "Enviar mensaje";
+				loading.classList.add("hidden");
+			}
+		});
+	};
+
+	document.addEventListener("astro:page-load", init);
+</script>

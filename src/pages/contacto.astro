@@ -1,0 +1,75 @@
+---
+import { siWhatsapp } from "simple-icons";
+import Channel from "../components/contact/Channel.astro";
+import ContactForm from "../components/contact/ContactForm.astro";
+import Layout from "../layouts/Layout.astro";
+import site from "../data/site.json";
+
+const { contact, status } = site;
+const telefono = contact.phone.replace(/\D/g, "");
+const greeting = encodeURIComponent("Hola Hedrich, te escribo por un proyecto.");
+
+const tips = [
+	"Qué querés construir, en una o dos frases.",
+	"Si ya existe algo o arrancamos de cero.",
+	"Para cuándo lo necesitás.",
+	"Un presupuesto aproximado, si ya lo tenés definido.",
+];
+---
+
+<Layout title="Contacto" description="Escribime por correo, WhatsApp o LinkedIn. Respondo el mismo día hábil.">
+	<main class="mx-auto max-w-5xl px-6 pb-32 pt-12">
+		<h1 data-reveal class="text-4xl font-extrabold tracking-tight sm:text-5xl">Contacto</h1>
+		<p data-reveal class="mt-4 max-w-prose text-lg text-base-content/60">
+			Contame qué necesitás y te respondo el mismo día hábil. Si no es algo que pueda hacer yo, te lo digo de una.
+		</p>
+
+		{status.available && (
+			<p data-reveal class="mt-6 flex items-center gap-2 text-sm text-base-content/60">
+				<span data-pulse class="size-2 shrink-0 rounded-full bg-success"></span>
+				{status.availableLabel} · {contact.location}, {status.gmt}
+			</p>
+		)}
+
+		<div class="mt-12 grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:items-start">
+			<div data-reveal>
+				<ContactForm />
+			</div>
+
+			<div class="space-y-10">
+				<ul class="border-b border-base-300">
+					<Channel label="Correo" value={contact.email} href={`mailto:${contact.email}`} copyable />
+					<Channel
+						label="WhatsApp"
+						value={contact.phone}
+						href={`https://wa.me/${telefono}?text=${greeting}`}
+						logo={siWhatsapp.path}
+						external
+						copyable
+					/>
+					<Channel
+						label="LinkedIn"
+						value={contact.linkedin.replace(/^https?:\/\//, "")}
+						href={contact.linkedin}
+						icon="linkedin"
+						external
+					/>
+				</ul>
+
+				<aside data-reveal class="rounded-xl border border-base-300 p-5">
+					<h2 class="text-[11px] font-bold uppercase tracking-wider text-base-content/40">Para no ir y volver</h2>
+					<p class="mt-3 text-sm text-base-content/70">Si me contás esto en el primer mensaje, te respondo con algo concreto:</p>
+					<ul class="mt-4 space-y-2.5 text-sm text-base-content/70">
+						{tips.map((item) => (
+							<li class="flex gap-2.5">
+								<svg class="mt-1 size-3.5 shrink-0 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m5 13 4 4L19 7" /></svg>
+								{item}
+							</li>
+						))}
+					</ul>
+				</aside>
+			</div>
+		</div>
+
+	</main>
+</Layout>

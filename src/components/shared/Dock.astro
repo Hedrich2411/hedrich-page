@@ -1,0 +1,24 @@
+---
+import { isActive, links } from "../../lib/navigation";
+const path = Astro.url.pathname;
+---
+
+<nav
+	transition:name="dock"
+	aria-label="Navegación principal"
+	class="fixed inset-x-4 bottom-4 z-50 flex items-stretch justify-around rounded-2xl border border-base-300 bg-base-200 py-2 shadow-lg lg:hidden"
+>
+	{links.map((l) => (
+		<a
+			href={l.href}
+			aria-current={isActive(l, path) ? "page" : null}
+			class:list={[
+				"flex flex-1 flex-col items-center gap-1 py-1 text-[11px]",
+				isActive(l, path) ? "text-primary" : "text-base-content/70",
+			]}
+		>
+			<svg class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d={l.d} /></svg>
+			{l.label}
+		</a>
+	))}
+</nav>

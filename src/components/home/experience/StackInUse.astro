@@ -1,0 +1,35 @@
+---
+import { technologiesUsed } from "../../../lib/experience";
+import { TECHNOLOGIES } from "../../../lib/technologies";
+---
+
+<div data-reveal-group class="mt-12 border-t border-base-300 pt-8">
+	<h3 data-reveal class="text-sm font-semibold text-primary">Stack en uso</h3>
+	<ul data-reveal class="mt-5 flex flex-wrap gap-2">
+		{technologiesUsed.map((slug) => (
+			<li data-tech data-slug={slug} class="flex items-center gap-2 rounded-xl border border-base-300 px-3 py-2">
+				<svg class="size-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d={TECHNOLOGIES[slug].path} /></svg>
+				<span class="text-xs font-medium">{TECHNOLOGIES[slug].name}</span>
+			</li>
+		))}
+	</ul>
+</div>
+
+<script>
+	import gsap from "gsap";
+	import { ROLE_EVENT, type RoleDetail } from "../../../lib/events";
+
+	// the Gantt announces the active role; here we only decide what dims.
+	// registered once at module scope and re-querying the tiles on each event:
+	// inside a page-load handler this stacked one listener per navigation
+	document.addEventListener(ROLE_EVENT, (e) => {
+		const { stack } = (e as CustomEvent<RoleDetail>).detail;
+		for (const tech of document.querySelectorAll<HTMLElement>("[data-tech]")) {
+			gsap.to(tech, {
+				opacity: !stack || stack.includes(tech.dataset.slug || "") ? 1 : 0.25,
+				duration: 0.25,
+				overwrite: "auto",
+			});
+		}
+	});
+</script>

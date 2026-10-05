@@ -1,0 +1,27 @@
+---
+import site from "../../data/site.json";
+import Filters from "./Filters.astro";
+
+interface Props { topics: string[] }
+const { topics } = Astro.props;
+---
+
+<header>
+	<p data-reveal class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Blog / Notas desde la práctica</p>
+	<h1 data-reveal class="mt-5 text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl">
+		Lo que aprendo construyendo.
+	</h1>
+
+	<div class="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+		<p data-reveal class="max-w-prose text-base-content/70">
+			Desarrollo, decisiones y problemas reales. Artículos para resolver una duda y cursos para profundizar, paso a
+			paso.
+		</p>
+		<p data-reveal class="shrink-0 text-sm sm:text-right">
+			<span class="block font-medium">Por {site.name}</span>
+			<span class="mt-1 block text-base-content/50">{site.role}</span>
+		</p>
+	</div>
+
+	<Filters topics={topics} />
+</header>

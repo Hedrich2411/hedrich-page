@@ -1,0 +1,79 @@
+---
+import Icon from "../shared/Icon.astro";
+
+interface Props { topics: string[] }
+const { topics } = Astro.props;
+---
+
+<div data-library class="mt-10 flex flex-col gap-4 lg:flex-row lg:items-center">
+	<label class="flex w-full items-center gap-3 rounded-xl border border-base-300 bg-base-100 px-4 py-3 transition-colors focus-within:border-primary lg:max-w-sm">
+		<Icon name="search" class="size-4 shrink-0 text-base-content/40" />
+		<input
+			data-search
+			type="search"
+			placeholder="Buscar un artículo o curso..."
+			aria-label="Buscar en el blog"
+			class="w-full bg-transparent text-sm outline-none placeholder:text-base-content/40"
+		/>
+	</label>
+
+	<div class="flex flex-wrap gap-1">
+		{["Todos", ...topics].map((topic, i) => (
+			<button
+				type="button"
+				data-topic={topic}
+				aria-pressed={i === 0 ? "true" : "false"}
+				class="rounded-lg px-4 py-2 text-sm transition-colors aria-[pressed=false]:text-base-content/60 aria-[pressed=false]:hover:text-primary aria-[pressed=true]:bg-primary/10 aria-[pressed=true]:font-medium aria-[pressed=true]:text-primary"
+			>
+				{topic}
+			</button>
+		))}
+	</div>
+</div>
+
+<script>
+	// Everything filterable carries data-entry with its topic and searchable text.
+	const init = () => {
+		const root = document.querySelector<HTMLElement>("[data-library]");
+		if (!root) return;
+
+		const search = root.querySelector<HTMLInputElement>("[data-search]")!;
+		const buttons = [...root.querySelectorAll<HTMLButtonElement>("[data-topic]")];
+		const entries = [...document.querySelectorAll<HTMLElement>("[data-entry]")];
+		const groups = [...document.querySelectorAll<HTMLElement>("[data-group]")];
+
+		let topic = "Todos";
+
+		const apply = () => {
+			const term = search.value.trim().toLowerCase();
+
+			for (const entry of entries) {
+				const matchesTopic = topic === "Todos" || entry.dataset.entry === topic;
+				const matchesTerm = !term || (entry.textContent || "").toLowerCase().includes(term);
+				entry.classList.toggle("hidden", !(matchesTopic && matchesTerm));
+			}
+
+			// a section with nothing left in it hides too, heading included
+			for (const group of groups) {
+				const visible = group.querySelectorAll("[data-entry]:not(.hidden)").length;
+				group.classList.toggle("hidden", visible === 0);
+			}
+
+			const empty = document.querySelector<HTMLElement>("[data-empty]");
+			empty?.classList.toggle("hidden", entries.some((e) => !e.classList.contains("hidden")));
+		};
+
+		// browsers restore the field on back/forward: honour whatever is in it now
+		apply();
+		search.addEventListener("input", apply);
+		for (const button of buttons) {
+			button.addEventListener("click", () => {
+				topic = button.dataset.topic || "Todos";
+				for (const other of buttons) other.setAttribute("aria-pressed", String(other === button));
+				apply();
+			});
+		}
+	};
+
+	document.addEventListener("astro:page-load", init);
+</script>

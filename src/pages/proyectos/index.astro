@@ -1,0 +1,26 @@
+---
+import Filters from "../../components/projects/Filters.astro";
+import Card from "../../components/projects/Card.astro";
+import Layout from "../../layouts/Layout.astro";
+import { projects } from "../../lib/projects";
+
+// only offer filters for technologies used by more than one project
+const count = new Map<string, number>();
+for (const p of projects) for (const s of p.stack) count.set(s, (count.get(s) ?? 0) + 1);
+const filterable = [...count].filter(([, n]) => n > 1).map(([s]) => s);
+---
+
+<Layout title="Proyectos" description="Sistemas empresariales, integraciones y apps que construyó Hedrich Apaza.">
+	<main class="mx-auto max-w-5xl px-6 pb-32 pt-12">
+		<h1 data-reveal class="text-4xl font-extrabold tracking-tight sm:text-5xl">Proyectos</h1>
+		<p data-reveal class="mt-4 max-w-prose text-lg text-base-content/60">
+			Sistemas internos, integraciones y apps que están en producción. Filtrá por la tecnología que te interese.
+		</p>
+
+		<Filters slugs={filterable} />
+
+		<ul class="relative mt-8 grid gap-6 sm:grid-cols-2">
+			{projects.map((project) => <Card project={project} />)}
+		</ul>
+	</main>
+</Layout>

@@ -1,88 +1,23 @@
 ---
-import Layout from "../layouts/Layout.astro";
-// ponytail: texto placeholder, reemplazar con los términos reales
+import Legal from "../layouts/Legal.astro";
+import site from "../data/site.json";
+// ponytail: placeholder copy, replace with the real terms
+const email = site.contact.email;
+const sections: [string, string][] = [
+	["1. Aceptación de los términos", "Al descargar, instalar o utilizar esta aplicación, usted acepta quedar vinculado por estos Términos y Condiciones. Si no está de acuerdo, no utilice la aplicación."],
+	["2. Uso de la aplicación", "La aplicación se ofrece para uso personal y no comercial. Usted se compromete a no utilizarla con fines ilícitos ni de forma que pueda dañar, deshabilitar o sobrecargar el servicio."],
+	["3. Privacidad", "El tratamiento de sus datos personales se rige por nuestra Política de Privacidad. Al usar la aplicación, usted consiente dicho tratamiento."],
+	["4. Propiedad intelectual", "Todo el contenido, marcas y código de la aplicación son propiedad de sus respectivos titulares y están protegidos por las leyes de propiedad intelectual aplicables."],
+	["5. Limitación de responsabilidad", 'La aplicación se proporciona "tal cual", sin garantías de ningún tipo. No seremos responsables de daños derivados del uso o la imposibilidad de uso de la aplicación.'],
+	["6. Modificaciones", "Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios entrarán en vigor al publicarse en esta página."],
+	["7. Contacto", `Para consultas sobre estos términos, escríbanos a <a class="link" href="mailto:${email}">${email}</a>.`],
+];
 ---
 
-<Layout title="Términos y Condiciones">
-	<main>
-		<header>
-			<h1>Términos y Condiciones</h1>
-			<p class="meta">Última actualización: 28 de agosto de 2026</p>
-		</header>
-
-		<section>
-			<h2>1. Aceptación de los términos</h2>
-			<p>Al descargar, instalar o utilizar esta aplicación, usted acepta quedar vinculado por estos Términos y Condiciones. Si no está de acuerdo, no utilice la aplicación.</p>
-		</section>
-
-		<section>
-			<h2>2. Uso de la aplicación</h2>
-			<p>La aplicación se ofrece para uso personal y no comercial. Usted se compromete a no utilizarla con fines ilícitos ni de forma que pueda dañar, deshabilitar o sobrecargar el servicio.</p>
-		</section>
-
-		<section>
-			<h2>3. Privacidad</h2>
-			<p>El tratamiento de sus datos personales se rige por nuestra Política de Privacidad. Al usar la aplicación, usted consiente dicho tratamiento.</p>
-		</section>
-
-		<section>
-			<h2>4. Propiedad intelectual</h2>
-			<p>Todo el contenido, marcas y código de la aplicación son propiedad de sus respectivos titulares y están protegidos por las leyes de propiedad intelectual aplicables.</p>
-		</section>
-
-		<section>
-			<h2>5. Limitación de responsabilidad</h2>
-			<p>La aplicación se proporciona "tal cual", sin garantías de ningún tipo. No seremos responsables de daños derivados del uso o la imposibilidad de uso de la aplicación.</p>
-		</section>
-
-		<section>
-			<h2>6. Modificaciones</h2>
-			<p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios entrarán en vigor al publicarse en esta página.</p>
-		</section>
-
-		<section>
-			<h2>7. Contacto</h2>
-			<p>Para consultas sobre estos términos, escríbanos a <a href="mailto:hedrich2411@gmail.com">hedrich2411@gmail.com</a>.</p>
-		</section>
-
-		<footer><a href="/privacidad">Política de Privacidad</a></footer>
-	</main>
-</Layout>
-
-<style>
-	main {
-		max-width: 42rem;
-		margin: 0 auto;
-		padding: 5rem 1.5rem 6rem;
-	}
-	header {
-		margin-bottom: 3.5rem;
-		padding-bottom: 2rem;
-		border-bottom: 1px solid var(--line);
-	}
-	h1 {
-		margin: 0 0 0.5rem;
-		font-size: clamp(1.75rem, 4vw, 2.5rem);
-		font-weight: 500;
-		letter-spacing: -0.02em;
-	}
-	.meta {
-		margin: 0;
-		font-size: 0.85rem;
-		color: var(--muted);
-	}
-	section { margin-bottom: 2.5rem; }
-	h2 {
-		margin: 0 0 0.5rem;
-		font-size: 1rem;
-		font-weight: 600;
-	}
-	p { margin: 0; color: #3a3a3a; }
-	a { color: var(--fg); }
-	footer {
-		margin-top: 4rem;
-		padding-top: 2rem;
-		border-top: 1px solid var(--line);
-		font-size: 0.85rem;
-	}
-</style>
+<Legal
+	title="Términos y Condiciones"
+	description="Condiciones de uso de las aplicaciones publicadas por hedrich.dev."
+	actualizado="28 de agosto de 2026"
+	sections={sections}
+	footer={{ href: "/privacidad", label: "Política de Privacidad" }}
+/>

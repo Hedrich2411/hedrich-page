@@ -1,0 +1,31 @@
+---
+import site from "../../data/site.json";
+import Icon from "./Icon.astro";
+
+interface Props { title: string; label: string }
+const { title, label } = Astro.props;
+const { status, contact } = site;
+---
+
+<section class="mt-24 border-t border-base-300 pt-14">
+	{status.available && (
+		<p data-reveal class="flex items-center gap-2 text-sm text-base-content/60">
+			<span data-pulse class="size-2 shrink-0 rounded-full bg-success"></span>
+			{status.availableLabel}
+		</p>
+	)}
+
+	<h2 data-reveal class="mt-4 max-w-[18ch] text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">{title}</h2>
+	<p data-reveal class="mt-4 max-w-prose text-base-content/70">{label}</p>
+
+	<div data-reveal class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+		<a
+			href="/contacto"
+			class="group inline-flex items-center gap-2.5 rounded-full bg-primary py-3 pl-6 pr-5 text-sm font-medium text-primary-content transition-transform hover:-translate-y-0.5"
+		>
+			Contame tu proyecto
+			<Icon name="arrow" class="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+		</a>
+		<a class="link text-sm" href={`mailto:${contact.email}`}>o escribime directo</a>
+	</div>
+</section>

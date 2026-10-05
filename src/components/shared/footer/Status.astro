@@ -1,0 +1,47 @@
+---
+import site from "../../../data/site.json";
+import Icon from "../Icon.astro";
+
+const { status, contact } = site;
+---
+
+<div>
+	<h3 class="text-[11px] font-bold uppercase tracking-wider text-base-content/40">Estado</h3>
+	<ul class="mt-4 space-y-2.5 text-sm text-base-content/60">
+		<li class="flex items-center gap-2">
+			<span data-pulse class:list={["size-2 shrink-0 rounded-full", status.available ? "bg-success" : "bg-base-content/30"]} />
+			{status.availableLabel}
+		</li>
+		<li class="flex items-center gap-2">
+			<Icon name="pin" class="size-3.5 shrink-0" />
+			{contact.location} · {status.gmt}
+		</li>
+		<li class="flex items-center gap-2">
+			<Icon name="clock" class="size-3.5 shrink-0" ring />
+			Hora local <span data-clock class="tabular-nums">--:--</span>
+		</li>
+		<li class="flex items-center gap-2">
+			<Icon name="globe" class="size-3.5 shrink-0" ring />
+			{status.workMode}
+		</li>
+	</ul>
+</div>
+
+<script>
+	// the clock runs client-side: on a static site the build would freeze it
+	const ZONE = "America/Lima";
+
+	const init = () => {
+		const output = document.querySelector<HTMLElement>("[data-clock]");
+		if (!output) return;
+
+		const formatter = new Intl.DateTimeFormat("es-PE", { timeZone: ZONE, hour: "2-digit", minute: "2-digit", hour12: false });
+		const paint = () => (output.textContent = formatter.format(new Date()));
+
+		paint();
+		const id = window.setInterval(paint, 30_000);
+		document.addEventListener("astro:before-swap", () => clearInterval(id), { once: true });
+	};
+
+	document.addEventListener("astro:page-load", init);
+</script>

@@ -1,0 +1,27 @@
+---
+import { siGithub } from "simple-icons";
+import site from "../../../data/site.json";
+import Icon from "../Icon.astro";
+
+const { contact } = site;
+const buttonClass =
+	"flex size-9 items-center justify-center rounded-lg border border-base-300 text-base-content/60 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-primary/10 hover:text-primary";
+---
+
+<ul class="mt-6 flex gap-2">
+	<li>
+		<a href={contact.github} target="_blank" rel="noopener" aria-label="GitHub" class={buttonClass}>
+			<svg class="size-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d={siGithub.path} /></svg>
+		</a>
+	</li>
+	<li>
+		<a href={contact.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn" class={buttonClass}>
+			<Icon name="linkedin" />
+		</a>
+	</li>
+	<li>
+		<a href={`mailto:${contact.email}`} aria-label="Correo" class={buttonClass}>
+			<Icon name="mail" />
+		</a>
+	</li>
+</ul>

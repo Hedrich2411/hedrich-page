@@ -1,0 +1,79 @@
+---
+import { render } from "astro:content";
+import Breadcrumb from "../../components/blog/Breadcrumb.astro";
+import Callout from "../../components/blog/Callout.astro";
+import CodeChrome from "../../components/blog/CodeChrome.astro";
+import CourseAside from "../../components/blog/CourseAside.astro";
+import LessonHeader from "../../components/blog/LessonHeader.astro";
+import MarkAsRead from "../../components/blog/MarkAsRead.astro";
+import NextLesson from "../../components/blog/NextLesson.astro";
+import Progress from "../../components/blog/Progress.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getContext, getPosts } from "../../lib/blog";
+import site from "../../data/site.json";
+
+export async function getStaticPaths() {
+	const posts = await getPosts();
+	return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const context = await getContext(post);
+
+const total = context ? String(context.outline.posts.length).padStart(2, "0") : "";
+const position = context ? String(context.index + 1).padStart(2, "0") : "";
+const section = context?.outline.sections.find((s) => s.id === post.data.section);
+const eyebrow = context ? `Lección ${position} de ${total} / ${section?.title ?? ""}` : post.data.topic;
+
+const trail = context
+	? [
+			{ label: "Blog", href: "/blog" },
+			{ label: context.outline.course.data.title },
+			{ label: `Lección ${position}` },
+		]
+	: [{ label: "Blog", href: "/blog" }, { label: post.data.topic }];
+---
+
+<Layout title={post.data.title} description={post.data.description} published={post.data.date}>
+	<main class="mx-auto max-w-6xl px-6 pb-32 pt-10">
+		<Breadcrumb trail={trail} />
+
+		<div class:list={["mt-10 gap-14", context && "lg:grid lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start"]}>
+			{context && <CourseAside outline={context.outline} current={post.id} />}
+
+			<article class:list={["min-w-0", !context && "max-w-3xl"]}>
+				<LessonHeader post={post} eyebrow={eyebrow} />
+
+				{post.data.goal && <Callout title="Al terminar esta lección">{post.data.goal}</Callout>}
+
+				<div class="prose mt-8 max-w-none">
+					<Content />
+				</div>
+
+				<div class="mt-14">
+					<MarkAsRead id={post.id} label={context ? "Marcar esta lección como leída" : "Marcar esta entrada como leída"} />
+				</div>
+
+				{context?.next && <NextLesson post={context.next} index={context.index + 2} />}
+
+				<div data-reveal class="mt-8 flex flex-wrap items-center justify-between gap-4 text-sm">
+					<a
+						href={`https://www.linkedin.com/sharing/share-offsite/?url=${Astro.site}blog/${post.id}`}
+						target="_blank"
+						rel="noopener"
+						class="text-primary transition-colors hover:text-primary/70"
+					>
+						Compartir esta {context ? "lección" : "entrada"} ↗
+					</a>
+					<a href={`mailto:${site.contact.email}?subject=Error en ${post.data.title}`} class="text-base-content/50 transition-colors hover:text-primary">
+						¿Encontraste un error? Contámelo
+					</a>
+				</div>
+			</article>
+		</div>
+	</main>
+
+	<CodeChrome />
+	<Progress />
+</Layout>

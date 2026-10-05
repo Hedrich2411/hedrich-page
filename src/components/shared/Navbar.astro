@@ -1,0 +1,21 @@
+---
+import Dock from "./Dock.astro";
+import Icon from "./Icon.astro";
+import NavLinks from "./NavLinks.astro";
+---
+
+{/* full-bleed bar on desktop: the rule runs edge to edge, the contents line up with <main> */}
+<header class="px-6 pt-4 lg:sticky lg:top-0 lg:z-50 lg:border-b lg:border-base-300 lg:bg-base-200 lg:px-0 lg:pt-0 lg:shadow-sm">
+	<div class="mx-auto flex max-w-5xl items-center justify-between gap-8 py-2 lg:h-16 lg:px-6 lg:py-0">
+		<a href="/" class="flex items-center gap-2.5 text-sm font-bold tracking-tight">
+			<span class="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-content">
+				<Icon name="terminal" class="size-4" />
+			</span>
+			hedrich.dev
+		</a>
+
+		<NavLinks />
+	</div>
+</header>
+
+<Dock />
