@@ -32,7 +32,7 @@
 			// grouped by section so they stagger in, instead of one loose element at a time
 			const groups = new Map<Element, HTMLElement[]>();
 			for (const el of document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-revealed])")) {
-				const section = el.closest("[data-reveal-group], section, footer, main") ?? document.body;
+				const section = el.closest("section, footer, main") ?? document.body;
 				groups.set(section, [...(groups.get(section) ?? []), el]);
 			}
 			if (!groups.size) return;

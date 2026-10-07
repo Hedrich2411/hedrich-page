@@ -1,7 +1,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
 export type Post = CollectionEntry<"posts">;
-export type Course = CollectionEntry<"courses">;
+type Course = CollectionEntry<"courses">;
 
 const WORDS_PER_MINUTE = 220;
 

@@ -5,7 +5,7 @@ interface Props { current: string }
 const { current } = Astro.props;
 ---
 
-{/* there is no services index: this strip is how you reach the rest, dock included */}
+{/* there is no services index: this strip is how you reach the rest */}
 <nav data-reveal aria-label="Servicios" class="-mx-6 overflow-x-auto px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 	<ul class="flex w-max gap-2">
 		{services.map((service) => {
@@ -16,7 +16,7 @@ const { current } = Astro.props;
 						href={`/servicios/${slug}`}
 						aria-current={slug === current ? "page" : null}
 						class:list={[
-							"block whitespace-nowrap rounded-full border px-4 py-1.5 text-sm transition-colors",
+							"block whitespace-nowrap rounded-full border px-4 py-2.5 text-sm transition-colors",
 							slug === current
 								? "border-primary bg-primary text-primary-content"
 								: "border-base-300 text-base-content/70 hover:border-primary/50 hover:text-primary",

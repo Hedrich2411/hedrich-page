@@ -3,15 +3,15 @@ import { process } from "../../lib/services";
 ---
 
 <section class="mt-24">
-	<h2 data-reveal class="text-2xl font-extrabold tracking-tight">Cómo trabajo</h2>
+	<h2 data-reveal class="heading text-2xl">Cómo trabajo</h2>
 
 	<!-- it really is a sequence, hence the numbers -->
 	<ol class="mt-10 grid gap-8 sm:grid-cols-2">
 		{process.map((p, i) => (
 			<li data-reveal class="flex gap-4">
-				<span class="mt-0.5 shrink-0 text-2xl font-extrabold tabular-nums text-base-content/20">{i + 1}</span>
+				<span class="mt-0.5 shrink-0 heading text-2xl tabular-nums text-base-content/20">{i + 1}</span>
 				<span class="min-w-0">
-					<span class="block font-extrabold">{p.step}</span>
+					<span class="block font-semibold">{p.step}</span>
 					<span class="mt-1 block text-base-content/70">{p.detail}</span>
 				</span>
 			</li>

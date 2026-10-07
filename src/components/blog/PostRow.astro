@@ -9,13 +9,13 @@ const { post, index } = Astro.props;
 <li data-entry={post.data.topic} data-reveal class="border-t border-base-300">
 	<a href={`/blog/${post.id}`} class="group grid gap-4 py-8 sm:grid-cols-[11rem_minmax(0,1fr)_auto] sm:gap-8">
 		<div class="text-xs">
-			<p class="font-semibold uppercase tracking-[0.14em] text-primary">{post.data.topic}</p>
+			<p class="eyebrow text-primary!">{post.data.topic}</p>
 			<p class="mt-2 text-base-content/50">{dateLabel(post.data.date)}</p>
 			<p class="text-base-content/50">{readingTime(post)} min de lectura</p>
 		</div>
 
 		<div class="min-w-0">
-			<h3 class="flex items-baseline gap-3 text-2xl font-extrabold tracking-tight transition-colors group-hover:text-primary">
+			<h3 class="flex items-baseline gap-3 heading text-2xl transition-colors group-hover:text-primary">
 				{index !== undefined && <span class="text-base tabular-nums text-base-content/25">{String(index).padStart(2, "0")}</span>}
 				{post.data.title}
 			</h3>

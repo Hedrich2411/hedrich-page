@@ -9,7 +9,7 @@ const { slugs } = Astro.props;
 		type="button"
 		data-filter="todos"
 		aria-pressed="true"
-		class="rounded-full border border-base-300 px-3.5 py-1.5 text-xs font-medium transition-colors aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-content"
+		class="rounded-full border border-base-300 px-4 py-2.5 text-xs font-medium transition-colors aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-content"
 	>
 		Todos
 	</button>
@@ -19,7 +19,7 @@ const { slugs } = Astro.props;
 			type="button"
 			data-filter={slug}
 			aria-pressed="false"
-			class="flex items-center gap-1.5 rounded-full border border-base-300 px-3.5 py-1.5 text-xs font-medium transition-colors aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-content"
+			class="flex items-center gap-1.5 rounded-full border border-base-300 px-4 py-2.5 text-xs font-medium transition-colors aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-content"
 		>
 			<svg class="size-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d={TECHNOLOGIES[slug].path} /></svg>
 			{TECHNOLOGIES[slug].name}

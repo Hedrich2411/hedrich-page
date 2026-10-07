@@ -15,6 +15,7 @@ export const ICONS = {
 	plug: "M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0V8ZM12 17v4",
 	bulb: "M9 18h6M10 21h4M12 3a6 6 0 0 0-3 11v2h6v-2a6 6 0 0 0-3-11Z",
 	save: "M5 4h11l3 3v13H5zM8 4v5h7V4M8 20v-6h8v6",
+	list: "M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01",
 } as const;
 
 export type IconName = keyof typeof ICONS;

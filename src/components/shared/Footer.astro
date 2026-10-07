@@ -4,6 +4,7 @@ import { links } from "../../lib/navigation";
 import Column, { type Item } from "./footer/Column.astro";
 import Status from "./footer/Status.astro";
 import Brand from "./footer/Brand.astro";
+import Icon from "./Icon.astro";
 
 const { contact } = site;
 const navigation: Item[] = links.map((l) => ({ label: l.label, href: l.href }));
@@ -15,7 +16,25 @@ const contacts: Item[] = [
 ];
 ---
 
-<footer class="border-t border-base-300">
+<footer class="mt-24 bg-code text-base-100">
+	{/* the reference opens its footer with one more ask before the columns */}
+	<div class="border-b border-white/10">
+		<div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-12 sm:flex-row sm:items-center sm:justify-between">
+			<div data-reveal>
+				<p class="eyebrow text-base-100/40!">Construyamos algo</p>
+				<p class="mt-3 heading text-2xl sm:text-3xl">¿Tenés una idea? Hagámosla real.</p>
+			</div>
+			<a
+				data-reveal
+				href="/contacto"
+				class="group inline-flex shrink-0 items-center gap-2 rounded-full bg-base-100 px-6 py-3 text-sm font-medium text-code transition-colors hover:bg-base-200"
+			>
+				Empezar un proyecto
+				<Icon name="arrow" class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+			</a>
+		</div>
+	</div>
+
 	<div class="mx-auto max-w-6xl px-6 py-14 sm:py-16">
 		<div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1.2fr_1fr]">
 			<div data-reveal><Brand /></div>
@@ -25,12 +44,12 @@ const contacts: Item[] = [
 		</div>
 
 		<!-- the design closes with the divider; below it, only the fine print -->
-		<div data-reveal class="mt-12 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-base-300 pt-6 text-xs text-base-content/50">
+		<div data-reveal class="mt-14 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-white/10 pt-7 text-xs text-base-100/45">
 			<!-- the build is static: without the script the year freezes on 1 January -->
 				<p>© <span data-year>{new Date().getFullYear()}</span> {site.name}</p>
-			<nav class="flex gap-5">
-				<a class="link link-hover" href="/privacidad">Privacidad</a>
-				<a class="link link-hover" href="/terminos">Términos</a>
+			<nav class="-my-2 flex gap-5">
+				<a class="link link-hover py-2" href="/privacidad">Privacidad</a>
+				<a class="link link-hover py-2" href="/terminos">Términos</a>
 			</nav>
 		</div>
 	</div>

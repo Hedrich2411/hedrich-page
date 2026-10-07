@@ -28,9 +28,16 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.google(),
-      name: 'Figtree',
-      cssVariable: '--font-figtree',
-      weights: [400, 500, 800],
+      name: 'Urbanist',
+      cssVariable: '--font-urbanist',
+      weights: [400, 500, 600, 800],
+      subsets: ['latin'],
+    },
+    {
+      provider: fontProviders.google(),
+      name: 'JetBrains Mono',
+      cssVariable: '--font-jetbrains',
+      weights: [400, 500],
       subsets: ['latin'],
     },
   ],

@@ -2,6 +2,9 @@
 import { siWhatsapp } from "simple-icons";
 import Channel from "../components/contact/Channel.astro";
 import ContactForm from "../components/contact/ContactForm.astro";
+import Faq from "../components/services/Faq.astro";
+import Process from "../components/services/Process.astro";
+import PageHeader from "../components/shared/PageHeader.astro";
 import Layout from "../layouts/Layout.astro";
 import site from "../data/site.json";
 
@@ -18,25 +21,23 @@ const tips = [
 ---
 
 <Layout title="Contacto" description="Escribime por correo, WhatsApp o LinkedIn. Respondo el mismo día hábil.">
-	<main class="mx-auto max-w-5xl px-6 pb-32 pt-12">
-		<h1 data-reveal class="text-4xl font-extrabold tracking-tight sm:text-5xl">Contacto</h1>
-		<p data-reveal class="mt-4 max-w-prose text-lg text-base-content/60">
-			Contame qué necesitás y te respondo el mismo día hábil. Si no es algo que pueda hacer yo, te lo digo de una.
-		</p>
+	<main class="mx-auto max-w-5xl px-6 pb-16 pt-12">
+		<PageHeader
+			eyebrow="Respondo el mismo día hábil"
+			title="Contacto"
+			lead="Contame qué necesitás y te respondo el mismo día hábil. Si no es algo que pueda hacer yo, te lo digo de una."
+		>
+			<p data-reveal class="mt-6 text-sm text-muted">{contact.location} · {status.gmt} · {status.workMode}</p>
+		</PageHeader>
 
-		{status.available && (
-			<p data-reveal class="mt-6 flex items-center gap-2 text-sm text-base-content/60">
-				<span data-pulse class="size-2 shrink-0 rounded-full bg-success"></span>
-				{status.availableLabel} · {contact.location}, {status.gmt}
-			</p>
-		)}
-
+		{/* min-w-0: un hijo de grid trae min-width:auto y no baja de su contenido,
+		    y la fila de LinkedIn estiraba la pista fuera de la pantalla a 320px */}
 		<div class="mt-12 grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:items-start">
-			<div data-reveal>
+			<div data-reveal class="min-w-0">
 				<ContactForm />
 			</div>
 
-			<div class="space-y-10">
+			<div class="min-w-0 space-y-10">
 				<ul class="border-b border-base-300">
 					<Channel label="Correo" value={contact.email} href={`mailto:${contact.email}`} copyable />
 					<Channel
@@ -56,13 +57,13 @@ const tips = [
 					/>
 				</ul>
 
-				<aside data-reveal class="rounded-xl border border-base-300 p-5">
-					<h2 class="text-[11px] font-bold uppercase tracking-wider text-base-content/40">Para no ir y volver</h2>
-					<p class="mt-3 text-sm text-base-content/70">Si me contás esto en el primer mensaje, te respondo con algo concreto:</p>
-					<ul class="mt-4 space-y-2.5 text-sm text-base-content/70">
-						{tips.map((item) => (
-							<li class="flex gap-2.5">
-								<svg class="mt-1 size-3.5 shrink-0 text-primary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m5 13 4 4L19 7" /></svg>
+				<aside data-reveal class="glass p-6">
+					<h2 class="eyebrow">Para no ir y volver</h2>
+					<p class="mt-4 text-sm text-base-content/70">Si me contás esto en el primer mensaje, te respondo con algo concreto:</p>
+					<ul class="mt-5 space-y-3 text-sm text-base-content/70">
+						{tips.map((item, i) => (
+							<li class="flex gap-3">
+								<span class="font-mono text-[0.65rem] leading-5 text-primary">{String(i + 1).padStart(2, "0")}</span>
 								{item}
 							</li>
 						))}
@@ -71,5 +72,7 @@ const tips = [
 			</div>
 		</div>
 
+		<Process />
+		<Faq />
 	</main>
 </Layout>

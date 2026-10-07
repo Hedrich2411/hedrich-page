@@ -1,0 +1,36 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+	/** the whisper that sits under the big word */
+	eyebrow: string;
+	title: string;
+	lead?: string;
+	/** right-aligned count or note */
+	meta?: string;
+	action?: { href: string; label: string };
+}
+const { eyebrow, title, lead, meta, action } = Astro.props;
+---
+
+<header class="pb-10">
+	<div data-reveal class="flex flex-wrap items-end justify-between gap-4">
+		<div>
+			<h1 class="heading text-4xl sm:text-5xl">{title}</h1>
+			<p class="eyebrow mt-2.5">{eyebrow}</p>
+		</div>
+
+		{action ? (
+			<a href={action.href} class="pill group">
+				{action.label}
+				<Icon name="arrow" class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+			</a>
+		) : meta ? (
+			<p class="text-sm text-muted">{meta}</p>
+		) : null}
+	</div>
+
+	{lead && <p data-reveal class="mt-7 max-w-prose text-lg text-base-content/70">{lead}</p>}
+
+	<slot />
+</header>

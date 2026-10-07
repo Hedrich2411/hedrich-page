@@ -12,10 +12,10 @@ const { post, eyebrow } = Astro.props;
 
 <header>
 	{eyebrow && (
-		<p data-reveal class="text-xs font-semibold uppercase tracking-[0.14em] text-primary">{eyebrow}</p>
+		<p data-reveal class="eyebrow text-primary!">{eyebrow}</p>
 	)}
 
-	<h1 data-reveal class:list={["text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl", eyebrow && "mt-5"]}>
+	<h1 data-reveal class:list={["heading text-4xl leading-[1.2] sm:text-[2.75rem]", eyebrow && "mt-5"]}>
 		{post.data.title}
 	</h1>
 	<p data-reveal class="mt-5 max-w-prose text-lg text-base-content/60">{post.data.description}</p>

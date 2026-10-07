@@ -1,0 +1,206 @@
+---
+import site from "../../data/site.json";
+import { isActive, links } from "../../lib/navigation";
+
+const path = Astro.url.pathname;
+const { contact, status } = site;
+
+// one running index so every row in the drawer staggers in order, services included
+let row = 0;
+const next = () => row++;
+---
+
+{/* Rendered as a sibling of the navbar, never inside it: the bar gets a
+    `backdrop-filter` once scrolled, and that makes it a containing block for
+    fixed children, which collapsed this panel to the height of the bar.
+    `hidden` keeps it out of the tab order until it is opened. */}
+<div id="menu-movil" data-menu hidden class="fixed inset-0 z-60 lg:hidden">
+	<div data-menu-backdrop class="absolute inset-0 bg-code/40 opacity-0 transition-opacity duration-300 motion-reduce:transition-none"></div>
+
+	<aside
+		data-menu-panel
+		role="dialog"
+		aria-modal="true"
+		aria-label="Navegación"
+		class="absolute inset-y-0 right-0 flex w-[min(20rem,86vw)] translate-x-full flex-col bg-base-100 shadow-[0_0_60px_rgb(36_30_34/0.25)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+	>
+		<div class="flex items-center justify-between border-b border-base-300 px-6 py-5">
+			<span class="font-mono text-xs uppercase tracking-[0.22em] text-muted">menú</span>
+			<button
+				data-menu-close
+				type="button"
+				aria-label="Cerrar menú"
+				class="grid size-9 place-content-center rounded-full border border-base-300 transition-colors hover:border-primary hover:text-primary"
+			>
+				<svg class="size-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+					<path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+				</svg>
+			</button>
+		</div>
+
+		<nav class="flex-1 overflow-y-auto overscroll-contain px-5 py-6">
+			<ul class="space-y-0.5">
+				{links.map((link) => (
+					<li>
+						{link.menu ? (
+							// no services index to link to: the parent is a label and the children carry the hrefs
+							<p data-menu-row style={`--i:${next()}`} class="flex items-center gap-3.5 px-3 pb-1 pt-4 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
+								<svg class="size-4 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+									<path stroke-linecap="round" stroke-linejoin="round" d={link.d} />
+								</svg>
+								{link.label}
+							</p>
+						) : (
+							<a
+								data-menu-row
+								style={`--i:${next()}`}
+								href={link.href}
+								aria-current={isActive(link, path) ? "page" : null}
+								class:list={[
+									"flex items-center gap-3.5 rounded-xl px-3 py-3 text-lg transition-colors",
+									isActive(link, path) ? "bg-primary/10 font-medium text-primary" : "hover:bg-base-200",
+								]}
+							>
+								<svg class="size-4 shrink-0 opacity-50" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+									<path stroke-linecap="round" stroke-linejoin="round" d={link.d} />
+								</svg>
+								{link.label}
+							</a>
+						)}
+
+						{link.menu && (
+							<ul class="ml-[1.9rem] border-l border-base-300 pl-3.5">
+								{link.menu.map((item) => (
+									<li>
+										<a
+											data-menu-row
+											style={`--i:${next()}`}
+											href={item.href}
+											aria-current={path === item.href ? "page" : null}
+											class:list={[
+												"block rounded-lg px-3 py-3 transition-colors",
+												path === item.href ? "font-medium text-primary" : "text-base-content/70 hover:bg-base-200",
+											]}
+										>
+											{item.label}
+										</a>
+									</li>
+								))}
+							</ul>
+						)}
+					</li>
+				))}
+			</ul>
+		</nav>
+
+		<div data-menu-row style={`--i:${next()}`} class="space-y-1 border-t border-base-300 px-8 py-6 text-sm">
+			<a href={`mailto:${contact.email}`} class="link break-all">{contact.email}</a>
+			<p class="text-xs text-muted">{contact.location} · {status.gmt} · {status.workMode}</p>
+		</div>
+	</aside>
+</div>
+
+<style>
+	/* rows arrive one after another, just behind the panel's own slide */
+	[data-menu]:not([hidden]) [data-menu-row] {
+		animation: menu-row 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+		animation-delay: calc(90ms + var(--i) * 35ms);
+	}
+
+	@keyframes menu-row {
+		from { opacity: 0; transform: translateX(16px); }
+		to { opacity: 1; transform: none; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		[data-menu]:not([hidden]) [data-menu-row] { animation: none; }
+	}
+</style>
+
+<script>
+	import { lockScroll, unlockScroll } from "../../lib/scroll-lock";
+
+	const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+	const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	const parts = () => {
+		const menu = document.querySelector<HTMLElement>("[data-menu]");
+		if (!menu) return null;
+		return {
+			menu,
+			panel: menu.querySelector<HTMLElement>("[data-menu-panel]")!,
+			backdrop: menu.querySelector<HTMLElement>("[data-menu-backdrop]")!,
+		};
+	};
+
+	const open = () => {
+		const p = parts();
+		if (!p || !p.menu.hidden) return;
+
+		document.querySelector("[data-menu-open]")?.setAttribute("aria-expanded", "true");
+		p.menu.hidden = false;
+		lockScroll();
+
+		// a frame between unhiding and moving, or the transition has nothing to run from
+		requestAnimationFrame(() => {
+			p.panel.classList.remove("translate-x-full");
+			p.backdrop.classList.remove("opacity-0");
+		});
+
+		p.menu.querySelector<HTMLElement>("[data-menu-close]")?.focus();
+	};
+
+	/** `instant` skips the slide: used when a link is taking the page away. */
+	const close = (instant = false) => {
+		const p = parts();
+		if (!p || p.menu.hidden) return;
+
+		p.panel.classList.add("translate-x-full");
+		p.backdrop.classList.add("opacity-0");
+		unlockScroll();
+		const trigger = document.querySelector<HTMLElement>("[data-menu-open]");
+		trigger?.setAttribute("aria-expanded", "false");
+
+		if (instant || reduced()) {
+			p.menu.hidden = true;
+			return;
+		}
+
+		// hide only once it has slid out, so the rows do not blink away mid-close.
+		// the guard covers a reopen landing before this fires.
+		p.panel.addEventListener("transitionend", () => {
+			if (p.panel.classList.contains("translate-x-full")) p.menu.hidden = true;
+		}, { once: true });
+		trigger?.focus();
+	};
+
+	// capture phase, so this runs before the router's own click handler and the
+	// panel is already gone when the view transition snapshots the old page.
+	// otherwise the drawer freezes half closed inside that snapshot.
+	document.addEventListener("click", (e) => {
+		const el = e.target as HTMLElement;
+		if (el.closest("[data-menu-open]")) open();
+		else if (el.closest("[data-menu] a")) close(true);
+		else if (el.closest("[data-menu-close]") || el.closest("[data-menu-backdrop]")) close();
+	}, true);
+
+	document.addEventListener("keydown", (e) => {
+		const p = parts();
+		if (!p || p.menu.hidden) return;
+
+		if (e.key === "Escape") return close();
+		if (e.key !== "Tab") return;
+
+		// focus cycles inside the dialog while it is open
+		const items = [...p.panel.querySelectorAll<HTMLElement>(FOCUSABLE)];
+		if (!items.length) return;
+		const edge = e.shiftKey ? items[0] : items[items.length - 1];
+		if (document.activeElement === edge) {
+			e.preventDefault();
+			(e.shiftKey ? items[items.length - 1] : items[0]).focus();
+		}
+	});
+
+	// a navigation must never leave the panel open or the scroll locked
+	document.addEventListener("astro:before-preparation", () => close(true));
+</script>

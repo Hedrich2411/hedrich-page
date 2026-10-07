@@ -8,7 +8,7 @@ const { trail } = Astro.props;
 		<>
 			{i > 0 && <span aria-hidden="true" class="text-base-content/25">/</span>}
 			{step.href ? (
-				<a href={step.href} class="text-primary transition-colors hover:text-primary/70">{step.label}</a>
+				<a href={step.href} class="py-1.5 text-primary transition-colors hover:text-primary/70">{step.label}</a>
 			) : (
 				<span aria-current="page">{step.label}</span>
 			)}

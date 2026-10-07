@@ -1,4 +1,5 @@
 import site from "../data/site.json";
+import { projects } from "./projects";
 
 export const services = site.services;
 export const process = site.process;
@@ -14,3 +15,7 @@ export const slugOf = (service: Service) =>
 		.toLowerCase()
 		.replace(/[^a-z0-9]+/g, "-")
 		.replace(/^-|-$/g, "");
+
+/** Projects that share a technology with the service, so each page shows real work. */
+export const projectsFor = (service: Service) =>
+	projects.filter((project) => project.stack.some((slug) => service.stack.includes(slug)));

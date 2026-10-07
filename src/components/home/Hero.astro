@@ -1,21 +1,78 @@
 ---
-import PhotoStack from "./PhotoStack.astro";
+import { existsSync } from "node:fs";
 import site from "../../data/site.json";
+import Icon from "../shared/Icon.astro";
+
+const [lead] = site.bio;
+const [first, ...surname] = site.name.split(" ");
+
+// the CV replaces the timeline: the link only renders once the file is in public/
+const CV = "/cv-hedrich-apaza.pdf";
+const hasCv = existsSync(`public${CV}`);
+
+// derived from the CV, never hardcoded: the oldest job start sets the count
+const earliest = site.experience.reduce((min, job) => (job.from < min ? job.from : min), site.experience[0].from);
+const years = Math.floor((Date.now() - new Date(`${earliest}-01T00:00:00`).getTime()) / 31_557_600_000);
+
+const facts = [
+	[`${years}+`, "años construyendo"],
+	[String(site.projects.length), "en producción"],
+	[site.status.gmt, "remoto desde Lima"],
+];
+
 ---
 
-<section class="flex flex-col gap-14 py-16 sm:py-24 lg:flex-row lg:items-center lg:gap-20">
-	<div class="min-w-0 lg:flex-1">
-		<!-- The wrapper clips: the name rises from below, like behind a blind -->
-		<h1 class="overflow-hidden text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl">
-			<span data-anim="name" class="block">{site.name}</span>
-		</h1>
-		<p data-anim="role" class="mt-4 text-lg text-base-content/60">{site.role}</p>
-		<div class="mt-8 space-y-4 text-base-content/80">
-			{site.bio.map((paragraph) => <p data-anim="bio" class="max-w-prose">{paragraph}</p>)}
+<section class="py-16 sm:py-24">
+	<div class="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
+		<div class="min-w-0">
+			<p data-anim="kicker" class="eyebrow">Desarrollador Full Stack · {site.contact.location}</p>
+
+			<!-- The wrapper clips: the name rises from below, like behind a blind -->
+			<h1 class="mt-6 overflow-hidden heading text-5xl sm:text-6xl">
+				<span data-anim="name" class="block">{first}</span>
+				<span data-anim="name" class="caret block text-primary">{surname.join(" ")}</span>
+			</h1>
+
+			<p data-anim="bio" class="mt-7 max-w-prose text-lg leading-relaxed text-base-content/70">{lead}</p>
+
+			<div data-anim="cta" class="mt-9 flex flex-wrap items-center gap-3">
+				<a href="/proyectos" class="pill group">
+					Ver proyectos
+					<Icon name="arrow" class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+				</a>
+				<a href="/contacto" class="pill-ghost">Hablemos</a>
+				{hasCv && (
+					<a href={CV} download class="group ml-1 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-primary">
+						CV
+						<Icon name="externalLink" class="size-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+					</a>
+				)}
+			</div>
 		</div>
+
+		{/* transparent PNG/WebP: it sits on the page, a panel around it would box it in.
+		    Eager and high priority because it is the largest paint of the first screen. */}
+		<img
+			data-anim="art"
+			src="/portada.webp"
+			alt="Un panel de administración, una app móvil y los servicios con los que se integran"
+			width="1536"
+			height="1024"
+			loading="eager"
+			fetchpriority="high"
+			decoding="async"
+			class="w-full max-w-xl justify-self-center lg:max-w-none"
+		/>
 	</div>
 
-	<PhotoStack photos={site.photos} />
+	<dl data-anim="facts" class="mt-14 grid grid-cols-3 gap-4 border-t border-base-300 pt-8 sm:gap-6">
+		{facts.map(([value, label]) => (
+			<div>
+				<dt class="heading text-2xl sm:text-4xl">{value}</dt>
+				<dd class="mt-1.5 text-xs text-muted">{label}</dd>
+			</div>
+		))}
+	</dl>
 </section>
 
 <script>
@@ -25,10 +82,13 @@ import site from "../../data/site.json";
 		const mm = gsap.matchMedia();
 
 		mm.add("(prefers-reduced-motion: no-preference)", () => {
-			const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.8 } });
-			tl.fromTo("[data-anim='name']", { yPercent: 110 }, { yPercent: 0, opacity: 1 })
-				.fromTo("[data-anim='role']", { y: 14 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.45")
-				.fromTo("[data-anim='bio']", { y: 14 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.12 }, "-=0.3");
+			const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.7 } });
+			tl.fromTo("[data-anim='kicker']", { y: 10 }, { y: 0, opacity: 1, duration: 0.4 })
+				.fromTo("[data-anim='name']", { yPercent: 110 }, { yPercent: 0, opacity: 1, stagger: 0.07 }, "-=0.2")
+				.fromTo("[data-anim='bio']", { y: 14 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.4")
+				.fromTo("[data-anim='cta']", { y: 14 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.35")
+				.fromTo("[data-anim='art']", { y: 24, scale: 0.98 }, { y: 0, scale: 1, opacity: 1, duration: 0.9 }, "-=0.9")
+				.fromTo("[data-anim='facts']", { y: 16 }, { y: 0, opacity: 1, duration: 0.6 }, "-=0.5");
 			return () => tl.kill();
 		});
 

@@ -1,0 +1,48 @@
+---
+import { dateLabel, getPosts, readingTime } from "../../lib/blog";
+import SectionHead from "../shared/SectionHead.astro";
+
+const posts = (await getPosts()).slice(0, 5);
+const [lead, ...rest] = posts;
+---
+
+{posts.length > 0 && (
+	<section class="py-20 sm:py-28">
+		<SectionHead
+			eyebrow="Notas desde la práctica"
+			title="Lo último que escribí"
+			lead="Decisiones y problemas reales, contados mientras todavía me acuerdo del detalle."
+			action={{ href: "/blog", label: "Ver el blog" }}
+		/>
+
+		{/* one wide tile plus the rest in a column, the same rhythm as the project mosaic */}
+		<div class="mt-12 grid gap-4 lg:grid-cols-[1.3fr_1fr]">
+			<a data-reveal href={`/blog/${lead.id}`} class="glass group flex flex-col justify-between gap-10 p-7">
+				<span class="flex items-center gap-3">
+					<span class="chip border-primary/30! text-primary!">{lead.data.topic}</span>
+					<span class="text-xs text-muted">{dateLabel(lead.data.date)}</span>
+				</span>
+				<span>
+					<span class="block heading text-2xl transition-colors group-hover:text-primary sm:text-3xl">{lead.data.title}</span>
+					<span class="mt-3 block max-w-prose text-sm text-base-content/65">{lead.data.description}</span>
+					<span class="mt-5 block text-xs text-muted">{readingTime(lead)} min de lectura</span>
+				</span>
+			</a>
+
+			<ul class="grid content-start gap-4 sm:grid-cols-2">
+				{rest.map((post) => (
+					<li data-reveal>
+						<a href={`/blog/${post.id}`} class="glass group flex h-full flex-col gap-3 p-6">
+							<span class="flex items-center gap-3">
+								<span class="eyebrow">{post.data.topic}</span>
+								<span class="text-xs text-muted">· {readingTime(post)} min</span>
+							</span>
+							<span class="block font-medium leading-snug transition-colors group-hover:text-primary">{post.data.title}</span>
+							<span class="block text-sm text-base-content/60">{post.data.description}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+)}

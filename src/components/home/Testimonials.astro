@@ -1,0 +1,36 @@
+---
+import site from "../../data/site.json";
+import { initialsOf } from "../../lib/blog";
+
+// Empty until there are real ones. The section simply does not render: a
+// portfolio with invented quotes is worse than a portfolio without any.
+const testimonials = site.testimonials as { quote: string; name: string; role: string }[];
+---
+
+{testimonials.length > 0 && (
+	<section class="bg-base-200/70 py-20 sm:py-28">
+		<div class="mx-auto max-w-5xl px-6">
+			<header data-reveal>
+				<h2 class="heading text-3xl sm:text-4xl">Lo que dicen <span class="text-primary">quienes lo usan</span></h2>
+				<p class="eyebrow mt-2">Clientes</p>
+			</header>
+
+			<ul class="mt-12 grid gap-4 lg:grid-cols-3">
+				{testimonials.slice(0, 3).map((item) => (
+					<li data-reveal class="glass flex flex-col justify-between gap-8 p-7">
+						<p class="text-base-content/75">“{item.quote}”</p>
+						<p class="flex items-center gap-3">
+							<span class="grid size-10 shrink-0 place-content-center rounded-full bg-primary/10 text-xs font-medium text-primary">
+								{initialsOf(item.name)}
+							</span>
+							<span>
+								<span class="block text-sm font-medium">{item.name}</span>
+								<span class="block text-xs text-muted">{item.role}</span>
+							</span>
+						</p>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+)}

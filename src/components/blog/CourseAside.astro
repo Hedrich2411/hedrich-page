@@ -10,82 +10,188 @@ const { course, sections, posts } = outline;
 const minutes = posts.reduce((total, post) => total + readingTime(post), 0);
 // the lesson number runs across the whole course, not per section
 const numberOf = (id: string) => String(posts.findIndex((p) => p.id === id) + 1).padStart(2, "0");
+const lessons = `${posts.length} ${posts.length === 1 ? "lección" : "lecciones"}`;
 ---
 
 <aside data-reveal class="lg:sticky lg:top-24">
-	{/* a panel that folds away on phones and stays open on the desktop rail */}
-	<details data-course-index class="group">
-		<summary class="flex cursor-pointer list-none items-start gap-3 lg:cursor-default">
+	{/* on phones the index is a sheet: inline it pushed the lesson itself off screen */}
+	<button
+		data-course-open
+		type="button"
+		aria-haspopup="dialog"
+		class="flex w-full items-center gap-3 rounded-box border border-base-300 bg-base-100/80 px-4 py-3.5 text-left transition-colors hover:border-primary lg:hidden"
+	>
+		<Icon name="list" class="size-4 shrink-0 text-primary" />
+		<span class="min-w-0 flex-1">
+			<span class="block text-sm font-medium">Contenido del curso</span>
+			<span class="mt-0.5 block text-xs text-base-content/50">{lessons} · {minutes} min</span>
+		</span>
+		<ProgressRing ids={posts.map((p) => p.id)} class="size-9 shrink-0" />
+	</button>
+
+	{/* one markup, two presentations: a modal sheet on phones, a plain block on the
+	    desktop rail. the author `lg:` display utilities beat the UA `display: none`
+	    that a closed <dialog> carries, so nothing has to be rendered twice. */}
+	<dialog
+		data-course-sheet
+		aria-label="Contenido del curso"
+		class="course-sheet m-0 max-h-[82vh] w-full max-w-none bg-base-100 p-0 text-base-content lg:block lg:max-h-none lg:bg-transparent"
+	>
+		<div class="flex items-start gap-3 border-b border-base-300 px-5 pb-4 pt-5 lg:border-0 lg:p-0">
 			<span class="min-w-0 flex-1">
-				<span class="block text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
-					{course.data.kind} / {course.data.level}
-				</span>
-				<span class="mt-2 block text-lg font-extrabold leading-tight tracking-tight">{course.data.title}</span>
+				<span class="eyebrow text-primary!">{course.data.kind} / {course.data.level}</span>
+				<span class="mt-2 block heading text-lg">{course.data.title}</span>
 			</span>
-			<Icon name="arrow" class="size-4 shrink-0 rotate-90 text-base-content/40 transition-transform duration-300 group-open:-rotate-90 lg:hidden" />
-		</summary>
-
-		<p class="mt-3 text-xs text-base-content/50">
-			{posts.length} {posts.length === 1 ? "lección" : "lecciones"} · {minutes} min en total
-		</p>
-
-		<ProgressRing ids={posts.map((p) => p.id)} shape="bar" unit="lecciones completadas" labelBelow class="mt-4" />
-
-		<nav class="mt-6 max-h-[60vh] overflow-y-auto lg:max-h-[calc(100vh-20rem)]">
-			{sections.map((section, s) => (
-				<div class="mt-6 first:mt-0">
-					<p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-base-content/40">
-						{String(s + 1).padStart(2, "0")} / {section.title}
-					</p>
-
-					<ol class="mt-3 space-y-1">
-						{section.posts.map((post) => {
-							const active = post.id === current;
-							return (
-								<li>
-									<a
-										href={`/blog/${post.id}`}
-										aria-current={active ? "page" : null}
-										class:list={[
-											"flex gap-3 rounded-lg border-l-2 py-2.5 pl-3 pr-2 text-sm transition-colors",
-											active
-												? "border-primary bg-primary/10 text-primary"
-												: "border-transparent text-base-content/70 hover:border-base-300 hover:text-primary",
-										]}
-									>
-										<span class="shrink-0 tabular-nums text-xs leading-5 opacity-60">{numberOf(post.id)}</span>
-										<span class="min-w-0 flex-1 leading-snug">
-											<span class:list={["block", active && "font-semibold"]}>{post.data.title}</span>
-											<span class="mt-1 block text-xs font-normal text-base-content/45">
-												{active ? `Leyendo ahora · ${readingTime(post)} min` : `${readingTime(post)} min de lectura`}
-											</span>
-											<span data-tick={post.id} class="hidden"></span>
-										</span>
-									</a>
-								</li>
-							);
-						})}
-					</ol>
-				</div>
-			))}
-		</nav>
-
-		<div class="mt-6 border-t border-base-300 pt-5">
-			<p class="text-xs text-base-content/45">Tu progreso se guarda solo en este navegador.</p>
-			<a href="/blog" class="group/link mt-3 inline-flex items-center gap-2 text-sm text-primary">
-				<Icon name="arrow" class="size-4 rotate-180 transition-transform duration-300 group-hover/link:-translate-x-0.5" />
-				Volver al blog
-			</a>
+			<button
+				data-course-close
+				type="button"
+				aria-label="Cerrar contenido"
+				class="grid size-9 shrink-0 place-content-center rounded-full border border-base-300 transition-colors hover:border-primary hover:text-primary lg:hidden"
+			>
+				<svg class="size-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+					<path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+				</svg>
+			</button>
 		</div>
-	</details>
+
+		<div class="overflow-y-auto overscroll-contain px-5 pb-6 pt-4 lg:p-0">
+			<p class="text-xs text-base-content/50">{lessons} · {minutes} min en total</p>
+
+			<ProgressRing ids={posts.map((p) => p.id)} shape="bar" unit="lecciones completadas" labelBelow class="mt-4" />
+
+			<nav class="mt-6 lg:max-h-[calc(100vh-20rem)] lg:overflow-y-auto">
+				{sections.map((section, s) => (
+					<div class="mt-6 first:mt-0">
+						<p class="eyebrow">
+							{String(s + 1).padStart(2, "0")} / {section.title}
+						</p>
+
+						<ol class="mt-3 space-y-1">
+							{section.posts.map((post) => {
+								const active = post.id === current;
+								return (
+									<li>
+										<a
+											href={`/blog/${post.id}`}
+											aria-current={active ? "page" : null}
+											class:list={[
+												"flex gap-3 rounded-lg border-l-2 py-2.5 pl-3 pr-2 text-sm transition-colors",
+												active
+													? "border-primary bg-primary/10 text-primary"
+													: "border-transparent text-base-content/70 hover:border-base-300 hover:text-primary",
+											]}
+										>
+											<span class="shrink-0 tabular-nums text-xs leading-5 opacity-60">{numberOf(post.id)}</span>
+											<span class="min-w-0 flex-1 leading-snug">
+												<span class:list={["block", active && "font-semibold"]}>{post.data.title}</span>
+												<span class="mt-1 block text-xs font-normal text-base-content/45">
+													{active ? `Leyendo ahora · ${readingTime(post)} min` : `${readingTime(post)} min de lectura`}
+												</span>
+												<span data-tick={post.id} class="hidden"></span>
+											</span>
+										</a>
+									</li>
+								);
+							})}
+						</ol>
+					</div>
+				))}
+			</nav>
+
+			<div class="mt-6 border-t border-base-300 pt-5">
+				<p class="text-xs text-base-content/45">Tu progreso se guarda solo en este navegador.</p>
+				<a href="/blog" class="group/link mt-3 inline-flex items-center gap-2 py-1 text-sm text-primary">
+					<Icon name="arrow" class="size-4 rotate-180 transition-transform duration-300 group-hover/link:-translate-x-0.5" />
+					Volver al blog
+				</a>
+			</div>
+		</div>
+	</dialog>
 </aside>
 
+<style>
+	/* phone: a sheet anchored to the bottom edge, within thumb reach */
+	.course-sheet {
+		position: fixed;
+		inset: auto 0 0 0;
+		border: 0;
+		border-radius: 1.75rem 1.75rem 0 0;
+		box-shadow: 0 -10px 60px rgb(36 30 34 / 0.25);
+		flex-direction: column;
+	}
+
+	.course-sheet[open] {
+		display: flex;
+		animation: sheet-up 320ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.course-sheet::backdrop {
+		background: rgb(30 23 28 / 0.45);
+		animation: sheet-fade 320ms ease both;
+	}
+
+	@keyframes sheet-up {
+		from { transform: translateY(100%); }
+	}
+
+	@keyframes sheet-fade {
+		from { opacity: 0; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.course-sheet[open], .course-sheet::backdrop { animation: none; }
+	}
+
+	/* desktop rail: the same element, laid out as an ordinary block */
+	@media (min-width: 1024px) {
+		.course-sheet {
+			position: static;
+			border-radius: 0;
+			box-shadow: none;
+			display: block;
+		}
+		.course-sheet::backdrop { background: none; }
+	}
+</style>
+
 <script>
-	// open on the desktop rail, folded on phones: <details open> cannot be media-queried
-	const init = () => {
-		const index = document.querySelector<HTMLDetailsElement>("[data-course-index]");
-		if (index) index.open = matchMedia("(min-width: 1024px)").matches;
+	import { lockScroll, unlockScroll } from "../../lib/scroll-lock";
+
+	const sheet = () => document.querySelector<HTMLDialogElement>("[data-course-sheet]");
+
+	const shut = () => {
+		const el = sheet();
+		if (!el?.open) return;
+		el.close();
+		unlockScroll();
 	};
 
-	document.addEventListener("astro:page-load", init);
+	// delegated at module scope: a navigation must not stack another listener
+	document.addEventListener("click", (e) => {
+		const target = e.target as HTMLElement;
+
+		if (target.closest("[data-course-open]")) {
+			const el = sheet();
+			if (!el || el.open) return;
+			el.showModal();
+			lockScroll();
+			return;
+		}
+
+		// a modal dialog fills the viewport, so a click on the backdrop lands on the
+		// dialog itself rather than on any of its children
+		if (target.closest("[data-course-close]") || target.closest("[data-course-sheet] a") || target.dataset?.courseSheet !== undefined) {
+			shut();
+		}
+	}, true);
+
+	// Escape fires `cancel` before closing: let the dialog close itself, just unlock
+	document.addEventListener("close", (e) => {
+		if ((e.target as HTMLElement)?.dataset?.courseSheet !== undefined) unlockScroll();
+	}, true);
+
+	// resizing past the breakpoint would leave a modal stuck over the desktop rail
+	matchMedia("(min-width: 1024px)").addEventListener("change", (e) => { if (e.matches) shut(); });
+
+	document.addEventListener("astro:before-preparation", shut);
 </script>

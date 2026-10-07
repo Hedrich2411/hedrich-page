@@ -1,0 +1,30 @@
+---
+import { projectsFor, type Service } from "../../lib/services";
+import Icon from "../shared/Icon.astro";
+
+interface Props { service: Service }
+const { service } = Astro.props;
+const related = projectsFor(service);
+---
+
+{related.length > 0 && (
+	<section class="mt-24">
+		<h2 data-reveal class="heading text-2xl">Dónde lo apliqué</h2>
+		<p data-reveal class="mt-2 text-base-content/60">Sistemas en producción donde este trabajo ya está hecho.</p>
+
+		<ul class="mt-8 border-t border-base-300">
+			{related.map((project) => (
+				<li data-reveal class="border-b border-base-300">
+					<a href={`/proyectos/${project.slug}`} class="group grid gap-2 py-5 sm:grid-cols-[14rem_minmax(0,1fr)_auto] sm:items-baseline sm:gap-8">
+						<span class="text-xs text-base-content/50">{project.kind} · {project.year}</span>
+						<span class="min-w-0">
+							<span class="block font-semibold transition-colors group-hover:text-primary">{project.name}</span>
+							<span class="mt-1 block text-sm text-base-content/60">{project.summary}</span>
+						</span>
+						<Icon name="arrow" class="hidden size-4 shrink-0 self-center text-base-content/30 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-primary sm:block" />
+					</a>
+				</li>
+			))}
+		</ul>
+	</section>
+)}

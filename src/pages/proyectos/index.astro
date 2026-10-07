@@ -1,4 +1,6 @@
 ---
+import CallToAction from "../../components/shared/CallToAction.astro";
+import PageHeader from "../../components/shared/PageHeader.astro";
 import Filters from "../../components/projects/Filters.astro";
 import Card from "../../components/projects/Card.astro";
 import Layout from "../../layouts/Layout.astro";
@@ -8,19 +10,43 @@ import { projects } from "../../lib/projects";
 const count = new Map<string, number>();
 for (const p of projects) for (const s of p.stack) count.set(s, (count.get(s) ?? 0) + 1);
 const filterable = [...count].filter(([, n]) => n > 1).map(([s]) => s);
+
+// the kinds double as a summary of what the work actually is
+const byKind = new Map<string, number>();
+for (const p of projects) byKind.set(p.kind, (byKind.get(p.kind) ?? 0) + 1);
+const kinds = [...byKind];
 ---
 
 <Layout title="Proyectos" description="Sistemas empresariales, integraciones y apps que construyó Hedrich Apaza.">
 	<main class="mx-auto max-w-5xl px-6 pb-32 pt-12">
-		<h1 data-reveal class="text-4xl font-extrabold tracking-tight sm:text-5xl">Proyectos</h1>
-		<p data-reveal class="mt-4 max-w-prose text-lg text-base-content/60">
-			Sistemas internos, integraciones y apps que están en producción. Filtrá por la tecnología que te interese.
-		</p>
+		<PageHeader
+			eyebrow="En producción"
+			title="Proyectos"
+			meta={`${projects.length} sistemas · ${kinds.length} tipos de trabajo`}
+			lead="Sistemas internos, integraciones y apps que están en producción y que alguien usa todos los días. Filtrá por la tecnología que te interese."
+		>
+			<dl data-reveal class="mt-8 grid gap-4 border-t border-base-300 pt-7 sm:grid-cols-4">
+				{kinds.map(([kind, total]) => (
+					<div>
+						<dt class="heading text-xl">{String(total).padStart(2, "0")}</dt>
+						<dd class="mt-1 text-xs text-muted">{kind.toLowerCase()}</dd>
+					</div>
+				))}
+			</dl>
+		</PageHeader>
 
 		<Filters slugs={filterable} />
 
 		<ul class="relative mt-8 grid gap-6 sm:grid-cols-2">
-			{projects.map((project) => <Card project={project} />)}
+			{projects.map((project, i) => <Card project={project} index={i + 1} />)}
 		</ul>
+
+		<div class="mt-24">
+			<CallToAction
+				variant="band"
+				title="¿Tenés algo parecido entre manos?"
+				label="Contame qué necesitás y te digo en la primera conversación si puedo ayudarte, cuánto tardaría y cuánto costaría."
+			/>
+		</div>
 	</main>
 </Layout>

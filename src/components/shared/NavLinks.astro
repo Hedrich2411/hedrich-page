@@ -2,11 +2,15 @@
 import { isActive, links, navLinkClass } from "../../lib/navigation";
 import NavDropdown from "./NavDropdown.astro";
 const path = Astro.url.pathname;
+
+// /contacto is the pill at the end of the bar, so the text link would be the
+// same destination twice. The mobile drawer still carries it.
+const visible = links.filter((l) => l.href !== "/contacto");
 ---
 
 <nav class="hidden lg:flex">
 	<ul class="flex items-center gap-7 text-sm font-medium">
-		{links.map((l) =>
+		{visible.map((l) =>
 			l.menu ? (
 				<NavDropdown link={l} active={isActive(l, path)} />
 			) : (

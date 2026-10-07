@@ -13,11 +13,6 @@
     "Sólidos conocimientos en Python (Django, FastAPI) y JavaScript (React, Next.js, React Native), además de Docker, Nginx y despliegues en la nube.",
     "Me mueve construir soluciones eficientes, seguras y escalables, con un enfoque técnico y orientado a resultados."
   ],
-  "photos": [
-    "",
-    "",
-    ""
-  ],
   "experience": [
     {
       "role": "Desarrollador Semi Senior",
@@ -414,5 +409,6 @@
       "q": "¿Te encargás de publicar la app?",
       "a": "Sí, va incluido: la cuenta de desarrollador, la ficha, las políticas de privacidad y el ida y vuelta con la revisión de Google."
     }
-  ]
+  ],
+  "testimonials": []
 }

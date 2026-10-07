@@ -1,0 +1,74 @@
+---
+import { projectsFor, services, slugOf } from "../../lib/services";
+import Scene from "../services/Scene.astro";
+import Icon from "../shared/Icon.astro";
+import type { SceneKind } from "../services/Scene.astro";
+---
+
+<section id="servicios" class="bg-base-200/70 py-20 sm:py-28">
+	<div class="mx-auto max-w-5xl px-6">
+		<header data-reveal>
+			<h2 class="heading text-3xl sm:text-4xl">Lo que <span class="text-primary">hago</span></h2>
+			<p class="eyebrow mt-2">Cinco frentes</p>
+		</header>
+
+		<p data-reveal class="mt-5 max-w-prose text-base-content/70">
+			La base de datos, la API, la web y la app. Si necesitás una sola de esas partes, también.
+		</p>
+	</div>
+
+	{/* every cell reads the same: the filled card was hiding its own drawing */}
+	<div class="mx-auto mt-12 max-w-5xl px-6">
+		<ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+			{services.map((service, i) => {
+				const used = projectsFor(service).length;
+				return (
+					<li data-reveal>
+						<a
+							href={`/servicios/${slugOf(service)}`}
+							class="glass group relative flex h-full flex-col justify-between gap-6 p-5 transition-transform duration-300 hover:-translate-y-0.5"
+						>
+							<span aria-hidden="true" class="corner-index">{String(i + 1).padStart(2, "0")}</span>
+
+							<span class="block">
+								<span class="flex h-28 items-center justify-center rounded-xl bg-base-100/70 px-5">
+									<Scene kind={slugOf(service) as SceneKind} class="h-20 w-full" />
+								</span>
+								{used > 0 && (
+									<span class="mt-4 block font-mono text-[0.65rem] text-muted">
+										{used === 1 ? "1 caso" : `${used} casos`}
+									</span>
+								)}
+							</span>
+
+							<span>
+								<span class="block heading text-xl">{service.name}</span>
+								<span class="mt-2.5 block text-sm leading-relaxed text-base-content/60">{service.summary}</span>
+								<Icon name="arrow" class="mt-6 size-4 text-primary transition-transform duration-300 group-hover:translate-x-0.5" />
+							</span>
+						</a>
+					</li>
+				);
+			})}
+
+			{/* 3x2 with five services leaves one cell empty: this closes the set */}
+			<li data-reveal>
+				<a
+					href="/contacto"
+					class="group flex h-full flex-col justify-between gap-6 rounded-box rounded-tr-none border border-dashed border-base-300 p-5 transition-colors hover:border-primary"
+				>
+					<span class="flex h-28 items-center justify-center text-muted transition-colors group-hover:text-primary">
+						<Icon name="mail" class="size-6" />
+					</span>
+					<span>
+						<span class="block heading text-xl">¿No ves lo tuyo?</span>
+						<span class="mt-2.5 block text-sm leading-relaxed text-base-content/60">
+							Contame qué necesitás y te digo si puedo ayudarte.
+						</span>
+						<Icon name="arrow" class="mt-6 size-4 text-primary transition-transform duration-300 group-hover:translate-x-0.5" />
+					</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</section>

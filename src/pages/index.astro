@@ -1,15 +1,36 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/home/Hero.astro";
-import Experience from "../components/home/Experience.astro";
 import Projects from "../components/home/Projects.astro";
+import About from "../components/home/About.astro";
+import Services from "../components/home/Services.astro";
+import Testimonials from "../components/home/Testimonials.astro";
+import Latest from "../components/home/Latest.astro";
+import CallToAction from "../components/shared/CallToAction.astro";
 import site from "../data/site.json";
 ---
 
 <Layout title="Inicio" description={site.bio[0]}>
-	<main class="mx-auto max-w-5xl px-6 pb-32">
-		<Hero />
-		<Projects />
-		<Experience />
+	<main>
+		<div class="mx-auto max-w-5xl px-6">
+			<Hero />
+			<Projects />
+			<About />
+		</div>
+
+		<Services />
+		<Testimonials />
+
+		<div class="mx-auto max-w-5xl px-6">
+			<Latest />
+
+			<div class="pb-24 pt-8">
+				<CallToAction
+					variant="band"
+					title="¿Tenés algo que construir?"
+					label="Contame qué necesitás y te digo en la primera conversación si puedo ayudarte, cuánto tardaría y cuánto costaría."
+				/>
+			</div>
+		</div>
 	</main>
 </Layout>

@@ -62,11 +62,11 @@ const trail = context
 						href={`https://www.linkedin.com/sharing/share-offsite/?url=${Astro.site}blog/${post.id}`}
 						target="_blank"
 						rel="noopener"
-						class="text-primary transition-colors hover:text-primary/70"
+						class="py-2 text-primary transition-colors hover:text-primary/70"
 					>
 						Compartir esta {context ? "lección" : "entrada"} ↗
 					</a>
-					<a href={`mailto:${site.contact.email}?subject=Error en ${post.data.title}`} class="text-base-content/50 transition-colors hover:text-primary">
+					<a href={`mailto:${site.contact.email}?subject=Error en ${post.data.title}`} class="py-2 text-base-content/50 transition-colors hover:text-primary">
 						¿Encontraste un error? Contámelo
 					</a>
 				</div>

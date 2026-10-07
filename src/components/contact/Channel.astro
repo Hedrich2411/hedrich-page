@@ -27,7 +27,7 @@ const { label, value, href, external = false, copyable = false, icon = "mail", l
 			href={href}
 			target={external ? "_blank" : null}
 			rel={external ? "noopener" : null}
-			class="link link-hover block truncate font-medium"
+			class="link link-hover block truncate py-1.5 font-medium"
 		>
 			{value}
 		</a>
@@ -38,7 +38,7 @@ const { label, value, href, external = false, copyable = false, icon = "mail", l
 			type="button"
 			data-copy={value}
 			aria-label={`Copiar ${label.toLowerCase()}`}
-			class="flex size-9 shrink-0 items-center justify-center rounded-lg border border-base-300 text-base-content/50 transition-colors hover:border-primary hover:text-primary"
+			class="flex size-10 shrink-0 items-center justify-center rounded-lg border border-base-300 text-base-content/50 transition-colors hover:border-primary hover:text-primary"
 		>
 			<Icon name="copy" class="size-4" />
 			<Icon name="check" class="hidden size-4" />
@@ -53,7 +53,7 @@ const { label, value, href, external = false, copyable = false, icon = "mail", l
 
 			buttonClass.addEventListener("click", async () => {
 				try {
-					await navigator.clipboard.writeText(buttonClass.dataset.copiar || "");
+					await navigator.clipboard.writeText(buttonClass.dataset.copy || "");
 				} catch {
 					return; // clipboard denied: the link next to it still works
 				}

@@ -3,7 +3,7 @@ import { services, slugOf } from "./services";
 export type NavLink = {
 	href: string;
 	label: string;
-	/** icon path, drawn by the mobile dock */
+	/** icon path, drawn by the mobile drawer */
 	d: string;
 	/** when present the desktop navbar renders a dropdown instead of a plain link */
 	menu?: { href: string; label: string }[];
@@ -11,7 +11,7 @@ export type NavLink = {
 	prefix?: string;
 };
 
-/** Single source for links: consumed by the desktop navbar and the mobile dock. */
+/** Single source for links: consumed by the desktop navbar and the mobile drawer. */
 export const links: NavLink[] = [
 	{ href: "/", label: "Inicio", d: "M3 10.5 12 3l9 7.5M5.25 9.75V20a1 1 0 0 0 1 1h11.5a1 1 0 0 0 1-1V9.75" },
 	{ href: "/proyectos", label: "Proyectos", d: "M4 5h6v6H4zM14 5h6v6h-6zM4 13h6v6H4zM14 13h6v6h-6z" },

@@ -1,0 +1,106 @@
+---
+import type { Project } from "../../lib/projects";
+import { TECHNOLOGIES } from "../../lib/technologies";
+import Icon from "../shared/Icon.astro";
+import Phone from "./Phone.astro";
+
+interface Props { projects: Project[] }
+const { projects } = Astro.props;
+
+const [feature, ...rest] = projects;
+---
+
+{/* one tall tile on the left, a 2x2 of small ones on the right */}
+<div class="mt-12 grid gap-4 lg:grid-cols-[1.15fr_1fr]">
+	<a
+		data-reveal
+		href={`/proyectos/${feature.slug}`}
+		class="glass group relative flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-window"
+	>
+		<span aria-hidden="true" class="corner-index z-10">01</span>
+		<div class="aspect-16/11 overflow-hidden bg-base-100/70">
+			{feature.screens.length > 0 ? (
+				<div class="flex h-full items-end justify-center px-6 pt-8">
+					<Phone isStatic screens={feature.screens} name={feature.name} transitionName={`portada-${feature.slug}`} class="w-36" />
+				</div>
+			) : (
+				<img
+					transition:name={`portada-${feature.slug}`}
+					src={feature.shots[0]}
+					alt=""
+					width="1200"
+					height="750"
+					loading="lazy"
+					class="size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+				/>
+			)}
+		</div>
+
+		<div class="flex flex-1 flex-col p-7">
+			<p class="eyebrow">{feature.kind} · {feature.year}</p>
+			<h3 class="mt-2 heading text-2xl transition-colors group-hover:text-primary">
+				{feature.name}
+			</h3>
+			<p class="mt-3 flex-1 text-sm text-base-content/65">{feature.summary}</p>
+			<ul class="mt-5 flex flex-wrap gap-1.5">
+				{feature.stack.slice(0, 4).map((slug) => <li class="chip">{TECHNOLOGIES[slug].name}</li>)}
+			</ul>
+		</div>
+	</a>
+
+	<ul class="grid gap-4 sm:grid-cols-2">
+		{rest.map((project, i) => (
+			<li data-reveal class="flex">
+				<a
+					href={`/proyectos/${project.slug}`}
+					class="glass group relative flex w-full flex-col justify-between gap-6 p-6 transition-shadow duration-300 hover:shadow-form"
+				>
+					<span aria-hidden="true" class="corner-index">{String(i + 2).padStart(2, "0")}</span>
+					{/* named too, or only the lead tile morphs into its detail page */}
+					<span class="aspect-16/10 overflow-hidden rounded-xl bg-base-100/70">
+						{project.screens.length > 0 ? (
+							<span class="flex h-full items-end justify-center px-6 pt-5">
+								<Phone isStatic screens={project.screens} name={project.name} transitionName={`portada-${project.slug}`} class="w-20" />
+							</span>
+						) : (
+							project.shots[0] && (
+								<img
+									transition:name={`portada-${project.slug}`}
+									src={project.shots[0]}
+									alt=""
+									width="1200"
+									height="750"
+									loading="lazy"
+									class="size-full object-cover object-top"
+								/>
+							)
+						)}
+					</span>
+
+					<span>
+						<span class="eyebrow block">{project.kind} · {project.year}</span>
+						<span class="mt-1.5 block font-medium leading-snug transition-colors group-hover:text-primary">{project.name}</span>
+						<span class="mt-2 block text-xs text-muted">{project.stack.slice(0, 3).map((s) => TECHNOLOGIES[s].name).join(" · ")}</span>
+					</span>
+				</a>
+			</li>
+		))}
+
+		{/* the fourth cell of the grid closes the set instead of sitting empty */}
+		<li data-reveal class="flex">
+			<a
+				href="/proyectos"
+				class="group flex w-full flex-col justify-between gap-6 rounded-box rounded-tr-none bg-primary p-6 text-primary-content transition-transform duration-300 hover:-translate-y-0.5"
+			>
+				<Icon name="braces" class="size-5 text-primary-content/70" />
+				<span>
+					<span class="block heading text-xl">Ver todos los proyectos</span>
+					<span class="mt-2 inline-flex items-center gap-1.5 text-xs text-primary-content/75">
+						El detalle de cada uno
+						<Icon name="arrow" class="size-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+					</span>
+				</span>
+			</a>
+		</li>
+	</ul>
+</div>

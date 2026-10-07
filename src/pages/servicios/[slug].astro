@@ -2,8 +2,11 @@
 import Faq from "../../components/services/Faq.astro";
 import Includes from "../../components/services/Includes.astro";
 import Process from "../../components/services/Process.astro";
+import RelatedProjects from "../../components/services/RelatedProjects.astro";
+import Scene from "../../components/services/Scene.astro";
 import ServiceTabs from "../../components/services/ServiceTabs.astro";
 import CallToAction from "../../components/shared/CallToAction.astro";
+import PageHeader from "../../components/shared/PageHeader.astro";
 import Layout from "../../layouts/Layout.astro";
 import { services, slugOf } from "../../lib/services";
 import { TECHNOLOGIES } from "../../lib/technologies";
@@ -19,25 +22,37 @@ const { service } = Astro.props;
 	<main class="mx-auto max-w-5xl px-6 pb-32 pt-12">
 		<ServiceTabs current={slugOf(service)} />
 
-		<h1 data-reveal class="mt-10 text-4xl font-extrabold tracking-tight sm:text-5xl">{service.name}</h1>
-		<p data-reveal class="mt-4 max-w-prose text-lg text-base-content/60">{service.summary}</p>
+		<div class="mt-10 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+			<div>
+				<PageHeader eyebrow="Servicio" title={service.name} lead={service.summary} />
 
-		<ul data-reveal class="mt-6 flex flex-wrap items-center gap-3 text-base-content/40">
-			{service.stack.map((slug) => (
-				<li title={TECHNOLOGIES[slug].name}>
-					<svg class="size-5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d={TECHNOLOGIES[slug].path} /></svg>
-					<span class="sr-only">{TECHNOLOGIES[slug].name}</span>
-				</li>
-			))}
-		</ul>
+				<ul data-reveal class="-mt-4 flex flex-wrap items-center gap-3 text-base-content/35">
+					{service.stack.map((slug) => (
+						<li title={TECHNOLOGIES[slug].name}>
+							<svg class="size-5 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d={TECHNOLOGIES[slug].path} /></svg>
+							<span class="sr-only">{TECHNOLOGIES[slug].name}</span>
+						</li>
+					))}
+				</ul>
+			</div>
+
+			{/* the same drawing the home uses for this service, at full size */}
+			<div data-reveal class="glass p-8">
+				<Scene kind={slugOf(service) as "integraciones-y-erp"} class="h-40 w-full" />
+			</div>
+		</div>
 
 		<Includes items={service.includes} />
+		<RelatedProjects service={service} />
 		<Process />
 		<Faq />
 
-		<CallToAction
-			title={`¿Necesitás ${service.name.toLowerCase()}?`}
-			label="Contame qué necesitás y te digo en la primera conversación si puedo ayudarte, cuánto tardaría y cuánto costaría."
-		/>
+		<div class="mt-24">
+			<CallToAction
+				variant="band"
+				title={`¿Necesitás ${service.name}?`}
+				label="Contame qué necesitás y te digo en la primera conversación si puedo ayudarte, cuánto tardaría y cuánto costaría."
+			/>
+		</div>
 	</main>
 </Layout>

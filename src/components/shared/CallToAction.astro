@@ -2,30 +2,84 @@
 import site from "../../data/site.json";
 import Icon from "./Icon.astro";
 
-interface Props { title: string; label: string }
-const { title, label } = Astro.props;
-const { status, contact } = site;
+interface Props {
+	title: string;
+	label: string;
+	/** "band" is the split panel that closes the home page */
+	variant?: "inline" | "band";
+}
+const { title, label, variant = "inline" } = Astro.props;
+const { contact, status } = site;
+const band = variant === "band";
+
+const prompts = [
+	"Un sistema interno a medida",
+	"Una integración con tu ERP o SUNAT",
+	"Una app para los procesos de campo",
+	"Un proyecto heredado que hay que sostener",
+];
 ---
 
-<section class="mt-24 border-t border-base-300 pt-14">
-	{status.available && (
-		<p data-reveal class="flex items-center gap-2 text-sm text-base-content/60">
-			<span data-pulse class="size-2 shrink-0 rounded-full bg-success"></span>
-			{status.availableLabel}
-		</p>
-	)}
+{band ? (
+	// split panel: the accent half carries the ask, the quiet half the way to reach me
+	<div class="grid overflow-hidden rounded-box rounded-tr-none lg:grid-cols-[1.2fr_1fr]">
+		<section class="bg-primary p-9 text-primary-content sm:p-12">
+			<p data-reveal class="eyebrow text-primary-content/60!">Hablemos</p>
+			<h2 data-reveal class="mt-5 max-w-[16ch] heading text-3xl sm:text-4xl">{title}</h2>
+			<p data-reveal class="mt-5 max-w-prose text-primary-content/75">{label}</p>
 
-	<h2 data-reveal class="mt-4 max-w-[18ch] text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">{title}</h2>
-	<p data-reveal class="mt-4 max-w-prose text-base-content/70">{label}</p>
+			<ul data-reveal class="mt-8 space-y-2.5 text-sm text-primary-content/80">
+				{prompts.map((prompt) => (
+					<li class="flex items-start gap-2.5">
+						<span class="mt-[0.45rem] size-1.5 shrink-0 rounded-full bg-primary-content/40"></span>
+						{prompt}
+					</li>
+				))}
+			</ul>
 
-	<div data-reveal class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-		<a
-			href="/contacto"
-			class="group inline-flex items-center gap-2.5 rounded-full bg-primary py-3 pl-6 pr-5 text-sm font-medium text-primary-content transition-transform hover:-translate-y-0.5"
-		>
-			Contame tu proyecto
-			<Icon name="arrow" class="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-		</a>
-		<a class="link text-sm" href={`mailto:${contact.email}`}>o escribime directo</a>
+			<a
+				data-reveal
+				href="/contacto"
+				class="group mt-9 inline-flex items-center gap-2 rounded-full bg-base-100 px-6 py-3 text-sm font-medium text-primary transition-colors hover:bg-base-200"
+			>
+				Contame tu proyecto
+				<Icon name="arrow" class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+			</a>
+		</section>
+
+		<aside data-reveal class="flex flex-col justify-between gap-8 bg-base-200 p-9 sm:p-12">
+			<div>
+				<p class="eyebrow">Directo</p>
+				<ul class="mt-5 space-y-5 text-sm">
+					<li>
+						<span class="block text-xs text-muted">Correo</span>
+						<a href={`mailto:${contact.email}`} class="link mt-0.5 block break-all py-2.5 font-medium">{contact.email}</a>
+					</li>
+					<li>
+						<span class="block text-xs text-muted">WhatsApp</span>
+						<a href={`https://wa.me/${contact.phone.replace(/\D/g, "")}`} target="_blank" rel="noopener" class="link mt-0.5 block py-2.5 font-medium">
+							{contact.phone}
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<p class="text-xs leading-relaxed text-muted">
+				{contact.location} · {status.gmt} · {status.workMode}.<br />Respondo el mismo día hábil.
+			</p>
+		</aside>
 	</div>
-</section>
+) : (
+	<section class="mt-24 border-t border-base-300 pt-14">
+		<h2 data-reveal class="max-w-[18ch] heading text-3xl sm:text-4xl">{title}</h2>
+		<p data-reveal class="mt-5 max-w-prose text-base-content/70">{label}</p>
+
+		<div data-reveal class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+			<a href="/contacto" class="pill group">
+				Contame tu proyecto
+				<Icon name="arrow" class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+			</a>
+			<a class="link text-sm" href={`mailto:${contact.email}`}>o escribime directo</a>
+		</div>
+	</section>
+)}

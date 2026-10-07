@@ -1,0 +1,71 @@
+---
+import Icon from "../shared/Icon.astro";
+import type { IconName } from "../../lib/icons";
+
+// The four layers a system gets built in, in order. They used to sit beside a
+// panel that listed the same steps again; the repetition is gone and the
+// numbering now carries the "end to end" idea on its own.
+const layers: { icon: IconName; title: string; body: string; stack: string[] }[] = [
+	{
+		icon: "braces",
+		title: "La base de datos",
+		body: "Modelo los datos antes de escribir pantallas: corregir un esquema en producción cuesta diez veces más.",
+		stack: ["PostgreSQL", "Modelado", "Migraciones"],
+	},
+	{
+		icon: "terminal",
+		title: "La API",
+		body: "Validación y permisos desde el primer endpoint, no agregados al final.",
+		stack: ["Python", "Django", "FastAPI"],
+	},
+	{
+		icon: "search",
+		title: "La interfaz",
+		body: "Paneles para quien administra, apps para quien está en campo.",
+		stack: ["React", "Next.js", "Nuxt", "Kotlin"],
+	},
+	{
+		icon: "plug",
+		title: "El despliegue",
+		body: "Lo que entrego arranca solo y sigue corriendo, sin que nadie lo toque a mano.",
+		stack: ["Docker", "Nginx", "Linux", "Google Cloud"],
+	},
+];
+---
+
+<section class="py-20 sm:py-28">
+	<header class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
+		<div data-reveal>
+			<h2 class="heading max-w-[18ch] text-3xl sm:text-4xl">
+				Un sistema no es la pantalla, <span class="text-primary">es todo lo que hay detrás.</span>
+			</h2>
+			<p class="eyebrow mt-3">Cómo trabajo</p>
+		</div>
+
+		<p data-reveal class="max-w-prose text-base-content/70 lg:max-w-sm lg:text-right">
+			Una sola persona en las cuatro capas. No hay traspaso entre equipos ni nadie a quien culpar.
+		</p>
+	</header>
+
+	{/* the sequence reads left to right: the numbers are the end-to-end argument */}
+	<ol class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+		{layers.map((layer, i) => (
+			<li data-reveal class="glass relative flex flex-col gap-5 p-6">
+				<span aria-hidden="true" class="corner-index">{String(i + 1).padStart(2, "0")}</span>
+
+				<span class="grid size-10 place-content-center rounded-full bg-primary/10 text-primary">
+					<Icon name={layer.icon} class="size-4" />
+				</span>
+
+				<span class="flex-1">
+					<span class="block font-medium">{layer.title}</span>
+					<span class="mt-2 block text-sm leading-relaxed text-base-content/60">{layer.body}</span>
+				</span>
+
+				<span class="flex flex-wrap gap-1.5">
+					{layer.stack.map((tech) => <span class="chip">{tech}</span>)}
+				</span>
+			</li>
+		))}
+	</ol>
+</section>

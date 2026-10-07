@@ -21,4 +21,3 @@ export const TECHNOLOGIES: Record<string, { name: string; path: string }> = {
 	linux: { name: "Linux", path: siLinux.path },
 };
 
-export const nameOf = (slug: string) => TECHNOLOGIES[slug]?.name ?? slug;
