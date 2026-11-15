@@ -6,7 +6,7 @@ import CodeChrome from "../../components/blog/CodeChrome.astro";
 import CourseAside from "../../components/blog/CourseAside.astro";
 import LessonHeader from "../../components/blog/LessonHeader.astro";
 import MarkAsRead from "../../components/blog/MarkAsRead.astro";
-import NextLesson from "../../components/blog/NextLesson.astro";
+import LessonNav from "../../components/blog/LessonNav.astro";
 import Progress from "../../components/blog/Progress.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getContext, getPosts } from "../../lib/blog";
@@ -55,17 +55,17 @@ const trail = context
 					<MarkAsRead id={post.id} label={context ? "Marcar esta lección como leída" : "Marcar esta entrada como leída"} />
 				</div>
 
-				{context?.next && <NextLesson post={context.next} index={context.index + 2} />}
+				{context && (
+					<LessonNav
+						previous={context.previous}
+						next={context.next}
+						previousIndex={context.index}
+						nextIndex={context.index + 2}
+						courseHref="/blog"
+					/>
+				)}
 
-				<div data-reveal class="mt-8 flex flex-wrap items-center justify-between gap-4 text-sm">
-					<a
-						href={`https://www.linkedin.com/sharing/share-offsite/?url=${Astro.site}blog/${post.id}`}
-						target="_blank"
-						rel="noopener"
-						class="py-2 text-primary transition-colors hover:text-primary/70"
-					>
-						Compartir esta {context ? "lección" : "entrada"} ↗
-					</a>
+				<div data-reveal class="mt-8 flex flex-wrap items-center justify-end gap-4 text-sm">
 					<a href={`mailto:${site.contact.email}?subject=Error en ${post.data.title}`} class="py-2 text-base-content/50 transition-colors hover:text-primary">
 						¿Encontraste un error? Contámelo
 					</a>

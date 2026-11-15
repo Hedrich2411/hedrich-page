@@ -22,14 +22,14 @@ const isMobile = project.screens.length > 0;
 					isStatic
 					screens={project.screens}
 					name={project.name}
-					transitionName={`portada-${project.slug}`}
+					portada={project.slug}
 					class="w-[7.5rem]"
 				/>
 			</div>
 		) : cover ? (
 			<div class="aspect-[16/10] overflow-hidden bg-base-100/70">
 				<img
-					transition:name={`portada-${project.slug}`}
+					data-portada={project.slug}
 					src={cover}
 					alt=""
 					width="1200"

@@ -1,0 +1,35 @@
+---
+import Icon from "../components/shared/Icon.astro";
+import PageHeader from "../components/shared/PageHeader.astro";
+import Layout from "../layouts/Layout.astro";
+
+const destinos = [
+	{ href: "/proyectos", label: "Proyectos", nota: "Lo que está en producción" },
+	{ href: "/blog", label: "Blog", nota: "Cursos y notas desde la práctica" },
+	{ href: "/contacto", label: "Contacto", nota: "Contame qué necesitás" },
+];
+---
+
+<Layout title="Página no encontrada" description="La dirección que abriste no existe o cambió de lugar.">
+	<main class="mx-auto flex min-h-[60vh] max-w-5xl flex-col justify-center px-6 pb-32 pt-12">
+		<PageHeader
+			eyebrow="error 404"
+			title="Acá no hay nada."
+			lead="La dirección que abriste no existe o cambió de lugar. Desde acá llegás a lo demás."
+		/>
+
+		<ul class="mt-4 grid gap-4 sm:grid-cols-3">
+			{destinos.map(({ href, label, nota }) => (
+				<li data-reveal class="flex">
+					<a href={href} class="glass group flex w-full flex-col gap-2 p-6 transition-transform duration-300 hover:-translate-y-0.5">
+						<span class="flex items-center justify-between gap-3 font-medium transition-colors group-hover:text-primary">
+							{label}
+							<Icon name="arrow" class="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+						</span>
+						<span class="text-sm text-base-content/60">{nota}</span>
+					</a>
+				</li>
+			))}
+		</ul>
+	</main>
+</Layout>

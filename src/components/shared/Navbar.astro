@@ -5,7 +5,6 @@ import NavLinks from "./NavLinks.astro";
 ---
 
 <header
-	transition:name="navbar"
 	data-navbar
 	class="sticky top-0 z-50 transition-colors duration-300 [&.is-stuck]:border-b [&.is-stuck]:border-base-300 [&.is-stuck]:bg-base-100/85 [&.is-stuck]:backdrop-blur-md"
 >
@@ -18,9 +17,8 @@ import NavLinks from "./NavLinks.astro";
 				<Icon name="arrow" class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
 			</a>
 
-			{/* only the trigger lives in the bar: the panel it opens is a sibling of
-			    this header, because `backdrop-filter` (and the transition name) make
-			    this element a containing block and would shrink a fixed child to it */}
+			{/* el panel es hermano del header: su `backdrop-filter` encogería
+			    a un hijo fixed */}
 			<button
 				data-menu-open
 				type="button"

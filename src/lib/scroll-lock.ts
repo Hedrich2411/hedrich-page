@@ -1,11 +1,4 @@
-/**
- * Keeps the page still while an overlay is open.
- *
- * iOS Safari ignores `overflow: hidden` on the root for touch scrolling, so the
- * content behind a drawer or a sheet kept moving. Pinning the body at its
- * current offset is the one lock that holds everywhere; the offset goes back on
- * release, which is why this has to be shared state and not a local variable.
- */
+/** Fija el body: iOS ignora `overflow: hidden` en la raíz al hacer scroll táctil. */
 let savedY = 0;
 
 export const lockScroll = () => {

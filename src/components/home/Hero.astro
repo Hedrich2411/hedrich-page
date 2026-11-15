@@ -1,5 +1,8 @@
 ---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 import { existsSync } from "node:fs";
+import portada from "../../assets/portada.webp";
 import site from "../../data/site.json";
 import Icon from "../shared/Icon.astro";
 
@@ -10,14 +13,17 @@ const [first, ...surname] = site.name.split(" ");
 const CV = "/cv-hedrich-apaza.pdf";
 const hasCv = existsSync(`public${CV}`);
 
-// derived from the CV, never hardcoded: the oldest job start sets the count
-const earliest = site.experience.reduce((min, job) => (job.from < min ? job.from : min), site.experience[0].from);
-const years = Math.floor((Date.now() - new Date(`${earliest}-01T00:00:00`).getTime()) / 31_557_600_000);
+const years = Math.floor((Date.now() - new Date(`${site.since}-01T00:00:00`).getTime()) / 31_557_600_000);
+const publicados = (await getCollection("posts")).filter((p) => !p.data.draft).length;
+const tecnologias = new Set([
+	...site.experience.flatMap((job) => job.stack),
+	...site.projects.flatMap((project) => project.stack),
+]).size;
 
 const facts = [
 	[`${years}+`, "años construyendo"],
-	[String(site.projects.length), "en producción"],
-	[site.status.gmt, "remoto desde Lima"],
+	[String(tecnologias), "tecnologías en producción"],
+	[String(publicados), "artículos publicados"],
 ];
 
 ---
@@ -50,14 +56,13 @@ const facts = [
 			</div>
 		</div>
 
-		{/* transparent PNG/WebP: it sits on the page, a panel around it would box it in.
-		    Eager and high priority because it is the largest paint of the first screen. */}
-		<img
+		{/* el LCP de la primera pantalla: eager y alta prioridad */}
+		<Image
 			data-anim="art"
-			src="/portada.webp"
+			src={portada}
 			alt="Un panel de administración, una app móvil y los servicios con los que se integran"
-			width="1536"
-			height="1024"
+			widths={[480, 768, 1024, 1536]}
+			sizes="(min-width: 1024px) 50vw, 100vw"
 			loading="eager"
 			fetchpriority="high"
 			decoding="async"

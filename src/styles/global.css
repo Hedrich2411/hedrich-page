@@ -213,39 +213,13 @@ html {
   opacity: 0;
 }
 
-/* Sequential on purpose: the default cross-fade overlaps both snapshots and two
-   pages of text ghost over each other, which reads as a flicker. Here the old
-   one leaves before the new one arrives, so they never share the screen. */
-::view-transition-old(root) {
-  animation: page-out 110ms ease-in both;
-  mix-blend-mode: normal;
+/* Sin capturar la raíz, el DOM vivo se pinta durante la transición y GSAP puede
+   revelar la página; con el fundido nativo encima solo podría deslizarla.
+   Lo único con nombre es la portada del proyecto, que sí necesita morfar. */
+:root {
+  view-transition-name: none;
 }
 
-::view-transition-new(root) {
-  animation: page-in 260ms 110ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  mix-blend-mode: normal;
-}
-
-/* The bar is furniture, not content: naming it lifts it out of the root
-   snapshot, and killing its own animation keeps it nailed in place while the
-   page underneath changes. */
-::view-transition-group(navbar),
-::view-transition-old(navbar),
-::view-transition-new(navbar) {
-  animation: none;
-}
-
-@keyframes page-out {
-  to { opacity: 0; }
-}
-
-@keyframes page-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: none; }
-}
-
-/* The browser drives the hero transition between card and detail;
-   with reduced motion it is cut and the change is instant. */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),
@@ -274,6 +248,24 @@ html {
   font-weight: 800;
   letter-spacing: -0.02em;
   scroll-margin-top: 6rem; /* an anchor must not land under the floating bar */
+}
+
+/* Screenshots: a thin frame keeps a light UI capture from bleeding into the page,
+   which happens with Odoo's own near-white background. */
+.prose img {
+  border: 1px solid var(--color-base-300);
+  border-radius: 0.75rem;
+  width: 100%;
+}
+
+/* the italic line right under an image reads as its caption */
+.prose img + em,
+.prose p > img + em {
+  display: block;
+  margin-top: -1rem;
+  font-size: 0.8rem;
+  font-style: normal;
+  color: var(--color-muted);
 }
 
 /* loose code inside a paragraph */

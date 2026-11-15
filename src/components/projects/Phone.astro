@@ -4,17 +4,18 @@ interface Props {
 	name: string;
 	/** En la tarjeta auto se muestra la primera pantalla, sin gesto ni dots. */
 	isStatic?: boolean;
-	transitionName?: string;
+	/** slug del proyecto: marca el marco como portada para el morf */
+	portada?: string;
 	class?: string;
 }
-const { screens, name, isStatic = false, transitionName, class: cls = "w-full max-w-[17rem]" } = Astro.props;
+const { screens, name, isStatic = false, portada, class: cls = "w-full max-w-[17rem]" } = Astro.props;
 const visible = isStatic ? screens.slice(0, 1) : screens;
 ---
 
 <div data-phone={isStatic ? null : ""} class:list={["mx-auto", cls]}>
 	<!-- The frame is CSS, not an image: it follows the theme and scales without pixelating -->
 	<div
-		style={transitionName ? `view-transition-name: ${transitionName}` : undefined}
+		data-portada={portada}
 		class="relative aspect-[9/19.5] rounded-[2.2rem] border-[9px] border-base-content/85 bg-base-content/85 shadow-2xl"
 	>
 		<span class="absolute left-1/2 top-2.5 z-10 h-5 w-[5.5rem] -translate-x-1/2 rounded-full bg-base-content/85"></span>

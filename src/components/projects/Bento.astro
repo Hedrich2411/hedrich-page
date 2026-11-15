@@ -21,11 +21,11 @@ const [feature, ...rest] = projects;
 		<div class="aspect-16/11 overflow-hidden bg-base-100/70">
 			{feature.screens.length > 0 ? (
 				<div class="flex h-full items-end justify-center px-6 pt-8">
-					<Phone isStatic screens={feature.screens} name={feature.name} transitionName={`portada-${feature.slug}`} class="w-36" />
+					<Phone isStatic screens={feature.screens} name={feature.name} portada={feature.slug} class="w-36" />
 				</div>
 			) : (
 				<img
-					transition:name={`portada-${feature.slug}`}
+					data-portada={feature.slug}
 					src={feature.shots[0]}
 					alt=""
 					width="1200"
@@ -56,16 +56,16 @@ const [feature, ...rest] = projects;
 					class="glass group relative flex w-full flex-col justify-between gap-6 p-6 transition-shadow duration-300 hover:shadow-form"
 				>
 					<span aria-hidden="true" class="corner-index">{String(i + 2).padStart(2, "0")}</span>
-					{/* named too, or only the lead tile morphs into its detail page */}
+					{/* marcada también, o solo la portada grande morfa hacia su detalle */}
 					<span class="aspect-16/10 overflow-hidden rounded-xl bg-base-100/70">
 						{project.screens.length > 0 ? (
 							<span class="flex h-full items-end justify-center px-6 pt-5">
-								<Phone isStatic screens={project.screens} name={project.name} transitionName={`portada-${project.slug}`} class="w-20" />
+								<Phone isStatic screens={project.screens} name={project.name} portada={project.slug} class="w-20" />
 							</span>
 						) : (
 							project.shots[0] && (
 								<img
-									transition:name={`portada-${project.slug}`}
+									data-portada={project.slug}
 									src={project.shots[0]}
 									alt=""
 									width="1200"

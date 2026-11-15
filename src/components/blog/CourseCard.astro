@@ -13,14 +13,24 @@ interface Props {
 }
 const { outline, dark = false, index } = Astro.props;
 const { course, sections, posts } = outline;
-const label = course.data.kind === "curso" ? "Empezar el curso" : "Explorar el tutorial";
+
+// A course with no lessons yet still earns a card: it announces what is coming.
+// There is nowhere to link to, so it renders as a plain box instead of an anchor.
+const pending = posts.length === 0;
+const Tag = pending ? "div" : "a";
+const label = pending
+	? "En preparación"
+	: course.data.kind === "curso"
+		? "Empezar el curso"
+		: "Explorar el tutorial";
 ---
 
 <li data-entry={course.data.topic} data-reveal class="flex">
-	<a
-		href={`/blog/${posts[0].id}`}
+	<Tag
+		href={pending ? undefined : `/blog/${posts[0].id}`}
 		class:list={[
-			"group relative flex w-full flex-col p-7 transition-transform duration-300 hover:-translate-y-0.5",
+			"group relative flex w-full flex-col p-7",
+			!pending && "transition-transform duration-300 hover:-translate-y-0.5",
 			dark ? "glass-dark text-base-100" : "glass text-base-content",
 		]}
 	>
@@ -50,18 +60,24 @@ const label = course.data.kind === "curso" ? "Empezar el curso" : "Explorar el t
 			))}
 		</ul>
 
-		<ProgressRing
-			ids={posts.map((p) => p.id)}
-			shape="bar"
-			tone={dark ? "invert" : "default"}
-			unit="entradas leídas"
-			suffix={` · ${sections.length} ${sections.length === 1 ? "sección" : "secciones"}`}
-			class="mt-6"
-		/>
+		{pending ? (
+			<p class:list={["mt-6 text-xs", dark ? "text-base-100/60" : "text-muted"]}>
+				{sections.length} {sections.length === 1 ? "sección" : "secciones"} · todavía sin lecciones publicadas
+			</p>
+		) : (
+			<ProgressRing
+				ids={posts.map((p) => p.id)}
+				shape="bar"
+				tone={dark ? "invert" : "default"}
+				unit="entradas leídas"
+				suffix={` · ${sections.length} ${sections.length === 1 ? "sección" : "secciones"}`}
+				class="mt-6"
+			/>
+		)}
 
 		<span class:list={["mt-6 flex items-center justify-between border-t pt-5 text-sm font-medium", dark ? "border-base-100/15" : "border-primary/15 text-primary"]}>
 			{label}
-			<Icon name="externalLink" class="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+			{!pending && <Icon name="externalLink" class="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />}
 		</span>
-	</a>
+	</Tag>
 </li>

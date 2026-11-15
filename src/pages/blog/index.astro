@@ -7,7 +7,7 @@ import Icon from "../../components/shared/Icon.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getLoosePosts, getOutlines, getTopics } from "../../lib/blog";
 
-const outlines = (await getOutlines()).filter((o) => o.posts.length > 0);
+const outlines = await getOutlines();
 const loose = await getLoosePosts();
 const topics = await getTopics();
 ---

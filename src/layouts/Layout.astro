@@ -64,5 +64,10 @@ const image = new URL("/og.png", Astro.site);
 		<Footer />
 		<WhatsApp />
 		<Reveal />
+
+		<script>
+			import { activarHeroDePortada } from "../lib/hero-portada";
+			activarHeroDePortada();
+		</script>
 	</body>
 </html>

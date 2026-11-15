@@ -13,7 +13,7 @@ const numberOf = (id: string) => String(posts.findIndex((p) => p.id === id) + 1)
 const lessons = `${posts.length} ${posts.length === 1 ? "lección" : "lecciones"}`;
 ---
 
-<aside data-reveal class="lg:sticky lg:top-24">
+<aside data-reveal data-reveal-key={`curso:${course.id}`} class="lg:sticky lg:top-24">
 	{/* on phones the index is a sheet: inline it pushed the lesson itself off screen */}
 	<button
 		data-course-open
@@ -59,7 +59,7 @@ const lessons = `${posts.length} ${posts.length === 1 ? "lección" : "lecciones"
 
 			<ProgressRing ids={posts.map((p) => p.id)} shape="bar" unit="lecciones completadas" labelBelow class="mt-4" />
 
-			<nav class="mt-6 lg:max-h-[calc(100vh-20rem)] lg:overflow-y-auto">
+			<nav data-course-nav={course.id} class="mt-6 lg:max-h-[calc(100vh-20rem)] lg:overflow-y-auto">
 				{sections.map((section, s) => (
 					<div class="mt-6 first:mt-0">
 						<p class="eyebrow">
@@ -156,6 +156,9 @@ const lessons = `${posts.length} ${posts.length === 1 ? "lección" : "lecciones"
 
 <script>
 	import { lockScroll, unlockScroll } from "../../lib/scroll-lock";
+	import { mantenerIndiceDelCurso } from "../../lib/indice-del-curso";
+
+	mantenerIndiceDelCurso();
 
 	const sheet = () => document.querySelector<HTMLDialogElement>("[data-course-sheet]");
 

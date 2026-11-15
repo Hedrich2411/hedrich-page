@@ -1,8 +1,4 @@
-/**
- * Reading progress lives in localStorage: it is a per-viewer convenience, not data
- * the site needs to be right about. Every access is guarded — private windows and
- * blocked storage throw instead of returning empty.
- */
+/** Avance de lectura en localStorage. Todo va en try: en privado lanza, no devuelve vacío. */
 const KEY = "blog:read";
 
 export const readIds = (): string[] => {

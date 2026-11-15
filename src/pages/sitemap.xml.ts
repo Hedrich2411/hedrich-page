@@ -3,11 +3,7 @@ import site from "../data/site.json";
 import { getPosts } from "../lib/blog";
 import { services, slugOf } from "../lib/services";
 
-/**
- * Hand-rolled instead of @astrojs/sitemap: the static routes come from the
- * filesystem and the dynamic ones from the same sources the pages use, so a new
- * page or post lands here on its own and there is no integration to keep around.
- */
+/** A mano y no @astrojs/sitemap: las rutas salen solas del filesystem y de las mismas fuentes que usan las páginas. */
 const staticRoutes = Object.keys(import.meta.glob("./**/*.astro"))
 	.filter((path) => !path.includes("[") && !path.startsWith("./api/"))
 	.map((path) => path.replace(/^\.\//, "").replace(/(index)?\.astro$/, "").replace(/\/$/, ""));
